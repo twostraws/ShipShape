@@ -14,9 +14,9 @@ struct AppReviewView: View {
     var body: some View {
         Form {
             if let reviewDetails = app.reviewDetails.first {
-                LabeledContent("First Name", value: reviewDetails.attributes.contactFirstName ?? "N/A")
-                LabeledContent("Last Name", value: reviewDetails.attributes.contactLastName ?? "N/A")
-                LabeledContent("Notes", value: reviewDetails.attributes.notes ?? "N/A")
+                LabeledContent("First Name", value: reviewDetails.attributes.contactFirstName ?? DefaultValues.unknown)
+                LabeledContent("Last Name", value: reviewDetails.attributes.contactLastName ?? DefaultValues.unknown)
+                LabeledContent("Notes", value: reviewDetails.attributes.notes ?? DefaultValues.notSet)
             } else {
                 Text("No app review details.")
             }

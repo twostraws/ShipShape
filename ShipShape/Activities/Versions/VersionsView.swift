@@ -14,10 +14,10 @@ struct VersionsView: View {
     var body: some View {
         Form {
             if let version = app.versions.first {
-                LabeledContent("Platform", value: version.attributes.platform)
-                LabeledContent("Version", value: version.attributes.versionString)
-                LabeledContent("State", value: version.attributes.appStoreState)
-                LabeledContent("Copyright", value: version.attributes.copyright)
+                LabeledContent("Platform", value: version.attributes.platform ?? DefaultValues.unknown)
+                LabeledContent("Version", value: version.attributes.versionString ?? DefaultValues.notSet)
+                LabeledContent("State", value: version.attributes.appStoreState ?? DefaultValues.unknown)
+                LabeledContent("Copyright", value: version.attributes.copyright ?? DefaultValues.notSet)
             } else {
                 Text("No versions.")
             }

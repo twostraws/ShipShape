@@ -14,11 +14,11 @@ struct ASCCustomerReview: Decodable, Hashable, Identifiable {
 
     struct Attributes: Decodable, Hashable {
         var rating: Int
-        var title: String
-        var body: String
-        var reviewerNickname: String
+        var title: String?
+        var body: String?
+        var reviewerNickname: String?
         var createdDate: Date
-        var territory: String
+        var territory: String?
     }
 }
 
