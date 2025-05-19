@@ -79,7 +79,6 @@ struct ASCView: View {
         apiKeyID: String,
         apiKeyIssuer: String
     ) {
-        self.apps = apps
         self.selectedApp = selectedApp
         self.selectedSection = selectedSection
 
@@ -88,6 +87,8 @@ struct ASCView: View {
             keyID: apiKeyID,
             issuerID: apiKeyIssuer,
         )
+
+        newClient.apps = apps
 
         _client = State(initialValue: newClient)
     }

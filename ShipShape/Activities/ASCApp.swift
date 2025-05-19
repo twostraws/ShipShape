@@ -9,7 +9,7 @@ import Foundation
 
 /// One app from App Store Connect.
 @Observable
-class ASCApp: Decodable, Hashable, Identifiable {
+final class ASCApp: Decodable, Hashable, Identifiable {
     /// The app's unique identifier.
     var id: String
 
@@ -29,7 +29,25 @@ class ASCApp: Decodable, Hashable, Identifiable {
         hasher.combine(id)
     }
 
-    required init(from decoder: any Decoder) throws {
+    init(
+        id: String,
+        attributes: Attributes,
+        customerReviews: [ASCCustomerReview] = [ASCCustomerReview](),
+        versions: [ASCAppVersion] = [ASCAppVersion](),
+        localizations: [ASCVersionLocalization] = [ASCVersionLocalization](),
+        reviewDetails: [ASCReviewDetails] = [ASCReviewDetails](),
+        builds: [ASCAppBuild] = [ASCAppBuild]()
+    ) {
+        self.id = id
+        self.attributes = attributes
+        self.customerReviews = customerReviews
+        self.versions = versions
+        self.localizations = localizations
+        self.reviewDetails = reviewDetails
+        self.builds = builds
+    }
+
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         attributes = try container.decode(Attributes.self, forKey: .attributes)
