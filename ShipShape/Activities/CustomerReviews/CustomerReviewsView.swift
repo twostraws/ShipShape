@@ -17,8 +17,17 @@ struct CustomerReviewsView: View {
                 Text("No reviews")
             } else {
                 ForEach(app.customerReviews) { review in
-                    Section(review.attributes.title ?? DefaultValues.notSet) {
+                    Section {
                         Text(review.attributes.body ?? DefaultValues.unknown)
+                            .textSelection(.enabled)
+                    } header: {
+                        HStack {
+                            Text(review.attributes.title ?? DefaultValues.notSet)
+                            Spacer()
+                            RatingView(rating: .constant(review.attributes.rating))
+                        }
+                    } footer: {
+                        Text(review.attributes.reviewerNickname ?? DefaultValues.unknown)
                     }
                 }
             }
