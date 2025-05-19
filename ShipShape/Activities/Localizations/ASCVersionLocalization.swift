@@ -13,8 +13,8 @@ struct ASCVersionLocalization: Decodable, Hashable, Identifiable {
     var attributes: Attributes
 
     struct Attributes: Decodable, Hashable {
-        var description: String
-        var locale: String
-        var keywords: String
+        var description: String?
+        var locale: String?
+        var keywords: String?
     }
 }

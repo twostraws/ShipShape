@@ -17,8 +17,8 @@ struct CustomerReviewsView: View {
                 Text("No reviews")
             } else {
                 ForEach(app.customerReviews) { review in
-                    Section(review.attributes.title) {
-                        Text(review.attributes.body)
+                    Section(review.attributes.title ?? DefaultValues.notSet) {
+                        Text(review.attributes.body ?? DefaultValues.unknown)
                     }
                 }
             }

@@ -13,10 +13,10 @@ struct ASCAppVersion: Decodable, Hashable, Identifiable {
     var attributes: Attributes
 
     struct Attributes: Decodable, Hashable {
-        var platform: String
-        var versionString: String
-        var appStoreState: String
-        var copyright: String
+        var platform: String?
+        var versionString: String?
+        var appStoreState: String?
+        var copyright: String?
         var createdDate: Date
     }
 }
