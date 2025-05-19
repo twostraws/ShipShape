@@ -19,6 +19,33 @@ struct ASCAppVersion: Decodable, Hashable, Identifiable {
         var copyright: String?
         var createdDate: Date
     }
+
+    // MARK: Example
+    static var example: ASCAppVersion {
+        return ASCAppVersion(
+            id: "123",
+            attributes: Attributes(
+                platform: "MAC_OS",
+                versionString: "1.0.0",
+                appStoreState: "READY_FOR_SALE",
+                copyright: "@ExampleCopyright",
+                createdDate: Date.now
+            )
+        )
+    }
+
+    static var example2: ASCAppVersion {
+        return ASCAppVersion(
+            id: "123",
+            attributes: Attributes(
+                platform: "IOS",
+                versionString: "1.0.0",
+                appStoreState: "PREPARE_FOR_SUBMISSION",
+                copyright: "@ExampleCopyright",
+                createdDate: Date.now
+            )
+        )
+    }
 }
 
 struct ASCAppVersionResponse: Decodable {

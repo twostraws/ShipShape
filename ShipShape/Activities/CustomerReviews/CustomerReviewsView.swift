@@ -35,3 +35,7 @@ struct CustomerReviewsView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    CustomerReviewsView(app: ASCApp.example)
+}

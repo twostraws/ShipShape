@@ -19,4 +19,24 @@ struct ASCReviewDetails: Decodable, Hashable, Identifiable {
         var contactEmail: String?
         var notes: String?
     }
+
+    // MARK: Example
+    static var example: ASCReviewDetails {
+        return ASCReviewDetails(
+            id: "123",
+            attributes: Attributes(
+                contactFirstName: "First Name",
+                contactLastName: "Last Name",
+                contactPhone: "(123) 456-7890",
+                contactEmail: "example@example.com",
+                notes: """
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque \
+        faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque.
+            Lorem ipsum dolor sit amet consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque \
+        faucibus ex. Adipiscing elit quisque faucibus ex sapien vitae pellentesque. Lorem ipsum dolor sit amet \
+        consectetur adipiscing elit. Sit amet consectetur adipiscing elit quisque faucibus ex. Adipiscing elit \
+        quisque faucibus ex sapien vitae pellentesque.
+        """)
+        )
+    }
 }

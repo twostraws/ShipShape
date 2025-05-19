@@ -38,9 +38,11 @@ struct WelcomeView: View {
                 To get started, you need to create an API key. \
                 [Click here to open App Store Connect](https://appstoreconnect.apple.com) in your web browser.
 
-                Go to **Users and Access** then **Integrations** to make your key. We suggest selecting Admin for access options.
+                Go to **Users and Access** then **Integrations** to make your key. \
+                We suggest selecting Admin for access options.
 
-                When you're done, download the key and drag it here. **Note:** You can download this key only once, so store it in a safe place.
+                When you're done, download the key and drag it here. \
+                **Note:** You can download this key only once, so store it in a safe place.
                 """)
             } else {
                 Text("To complete setup, please Key ID and Issuer ID fields below:")
@@ -151,4 +153,5 @@ struct WelcomeView: View {
 
 #Preview {
     WelcomeView()
+        .environment(UserSettings())
 }

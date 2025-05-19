@@ -20,3 +20,7 @@ struct BasicInformationView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    BasicInformationView(app: ASCApp.example)
+}

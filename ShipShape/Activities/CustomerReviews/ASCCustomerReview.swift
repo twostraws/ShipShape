@@ -20,6 +20,35 @@ struct ASCCustomerReview: Decodable, Hashable, Identifiable {
         var createdDate: Date
         var territory: String?
     }
+
+    // MARK: Example
+    static var example: ASCCustomerReview {
+        return ASCCustomerReview(
+            id: "1111",
+            attributes: Attributes(
+                rating: 5,
+                title: "Awesome App!",
+                body: "I love this app!",
+                reviewerNickname: "John Doe",
+                createdDate: Date.now,
+                territory: "Somewhere"
+            )
+        )
+    }
+
+    static var example2: ASCCustomerReview {
+        return ASCCustomerReview(
+            id: "2222",
+            attributes: Attributes(
+                rating: 5,
+                title: "Epic!",
+                body: "I love this app!",
+                reviewerNickname: "Jane Doe",
+                createdDate: Date.now,
+                territory: "Elsewhere"
+            )
+        )
+    }
 }
 
 struct ASCCustomerReviewResponse: Decodable {

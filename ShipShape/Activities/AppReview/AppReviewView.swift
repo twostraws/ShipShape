@@ -24,3 +24,7 @@ struct AppReviewView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    AppReviewView(app: ASCApp.example)
+}

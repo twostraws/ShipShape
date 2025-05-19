@@ -22,4 +22,16 @@ struct ASCVersionLocalization: Decodable, Hashable, Identifiable {
         var locale: String?
         var keywords: String?
     }
+
+    // MARK: Example
+    static var example: ASCVersionLocalization {
+        return ASCVersionLocalization(
+            id: "123",
+            attributes: Attributes(
+                description: "abc123",
+                locale: "213",
+                keywords: "123"
+            )
+        )
+    }
 }
