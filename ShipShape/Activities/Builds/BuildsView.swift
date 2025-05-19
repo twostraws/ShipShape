@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Displays data about a single `ASCAppBuild`.
 struct BuildsView: View {
+    @Environment(ASCClient.self) var client
     var app: ASCApp
 
     var body: some View {
@@ -39,5 +40,12 @@ struct BuildsView: View {
             }
         }
         .formStyle(.grouped)
+        .task(load)
+    }
+
+    func load() async {
+        Task {
+            try await client.fetchBuilds(of: app)
+        }
     }
 }

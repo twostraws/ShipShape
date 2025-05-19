@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Displays data about a single `ASCVersionLocalization`.
 struct LocalizationsView: View {
+    @Environment(ASCClient.self) var client
     var app: ASCApp
 
     var body: some View {
@@ -22,5 +23,12 @@ struct LocalizationsView: View {
             }
         }
         .formStyle(.grouped)
+        .task(load)
+    }
+
+    func load() async {
+        Task {
+            try await client.fetchVersions(of: app)
+        }
     }
 }

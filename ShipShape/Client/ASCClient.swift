@@ -9,7 +9,11 @@ import Foundation
 import JWTKit
 
 /// Handles all communication with App Store Connect.
-struct ASCClient {
+@Observable @MainActor
+class ASCClient {
+    /// All the apps we loaded from the API
+    var apps = [ASCApp]()
+
     /// The user's private ASC API key.
     var key: String
 
@@ -18,6 +22,12 @@ struct ASCClient {
 
     /// The Issuer ID; one ID per team.
     var issuerID: String
+
+    init(key: String, keyID: String, issuerID: String) {
+        self.key = key
+        self.keyID = keyID
+        self.issuerID = issuerID
+    }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
     func fetch<T: Decodable>(_ urlString: String, as type: T.Type) async throws -> T {

@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Displays all reviews for a single app.
 struct CustomerReviewsView: View {
+    @Environment(ASCClient.self) var client
     var app: ASCApp
 
     var body: some View {
@@ -33,5 +34,12 @@ struct CustomerReviewsView: View {
             }
         }
         .formStyle(.grouped)
+        .task(load)
+    }
+
+    func load() async {
+        Task {
+            try await client.fetchReviews(of: app)
+        }
     }
 }

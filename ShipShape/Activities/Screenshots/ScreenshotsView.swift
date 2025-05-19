@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ScreenshotsView: View {
+    @Environment(ASCClient.self) var client
     var app: ASCApp
 
     var body: some View {
@@ -43,5 +44,18 @@ struct ScreenshotsView: View {
             }
         }
         .formStyle(.grouped)
+        .task(load)
+    }
+
+    func load() async {
+        Task {
+            if app.localizations.isEmpty {
+                try await client.fetchVersions(of: app)
+            }
+
+            guard let localization = app.localizations.first else { return }
+
+            try await client.fetchScreenshotSets(of: localization, for: app)
+        }
     }
 }

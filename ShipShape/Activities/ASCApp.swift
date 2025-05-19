@@ -8,7 +8,8 @@
 import Foundation
 
 /// One app from App Store Connect.
-struct ASCApp: Decodable, Hashable, Identifiable {
+@Observable
+class ASCApp: Decodable, Hashable, Identifiable {
     /// The app's unique identifier.
     var id: String
 
@@ -19,6 +20,20 @@ struct ASCApp: Decodable, Hashable, Identifiable {
     var localizations = [ASCVersionLocalization]()
     var reviewDetails = [ASCReviewDetails]()
     var builds = [ASCAppBuild]()
+
+    static func == (lhs: ASCApp, rhs: ASCApp) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        attributes = try container.decode(Attributes.self, forKey: .attributes)
+    }
 
     enum CodingKeys: CodingKey {
         case id, attributes

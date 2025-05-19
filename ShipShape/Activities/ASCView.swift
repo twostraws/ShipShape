@@ -12,13 +12,12 @@ struct ASCView: View {
     @Environment(UserSettings.self) var userSettings
 
     @State private var client: ASCClient
-    @State private var apps = [ASCApp]()
     @State private var selectedApp: ASCApp?
     @State private var selectedSection: AppSection?
 
     var body: some View {
         NavigationSplitView {
-            List(apps, selection: $selectedApp) { app in
+            List(client.apps, selection: $selectedApp) { app in
                 NavigationLink(app.attributes.name, value: app)
             }
             .frame(minWidth: 200)
@@ -38,21 +37,26 @@ struct ASCView: View {
             }
         } detail: {
             if let selectedApp, let selectedSection {
-                switch selectedSection {
-                case .appReview: AppReviewView(app: selectedApp)
-                case .basicInformation: BasicInformationView(app: selectedApp)
-                case .builds: BuildsView(app: selectedApp)
-                case .customerReviews: CustomerReviewsView(app: selectedApp)
-                case .localizations: LocalizationsView(app: selectedApp)
-                case .screenshots: ScreenshotsView(app: selectedApp)
-                case .versions: VersionsView(app: selectedApp)
+                VStack {
+                    switch selectedSection {
+                    case .appReview: AppReviewView(app: selectedApp)
+                    case .basicInformation: BasicInformationView(app: selectedApp)
+                    case .builds: BuildsView(app: selectedApp)
+                    case .customerReviews: CustomerReviewsView(app: selectedApp)
+                    case .localizations: LocalizationsView(app: selectedApp)
+                    case .screenshots: ScreenshotsView(app: selectedApp)
+                    case .versions: VersionsView(app: selectedApp)
+                    }
                 }
+                .id(selectedApp)
             } else {
                 Text("Welcome to ShipShape!")
             }
+
         }
         .navigationTitle("ShipShape")
         .task(load)
+        .environment(client)
     }
 
     init(apiKey: String, apiKeyID: String, apiKeyIssuer: String) {
@@ -82,29 +86,8 @@ struct ASCView: View {
         }
     }
 
-    /// Performs initial load of all our data. This should really be pulled apart to be lazy, so we load data as the user
-    /// browses to a particular screen, or if they choose to refresh a screen.
+    /// Performs initial load of our app data.
     func loadAppData() async throws {
-        var fetchedApps = try await client.fetchApps()
-
-        for (index, app) in fetchedApps.enumerated() {
-            async let reviews = client.fetchReviews(for: app)
-            async let versions = client.fetchVersions(of: app)
-            async let builds = try await client.fetchBuilds(of: app)
-
-            fetchedApps[index].customerReviews = try await reviews
-            fetchedApps[index].builds = try await builds
-
-            let versionData = try await versions
-            fetchedApps[index].versions = versionData.data
-            fetchedApps[index].reviewDetails = versionData.appStoreReviewDetails
-
-            for var localization in versionData.appStoreVersionLocalizations {
-                localization.screenshotSets = try await client.fetchScreenshotSets(of: localization)
-                fetchedApps[index].localizations.append(localization)
-            }
-        }
-
-        apps = fetchedApps
+        try await client.fetchApps()
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 /// Displays data about a single `ASCReviewDetails`.
 struct AppReviewView: View {
+    @Environment(ASCClient.self) var client
     var app: ASCApp
 
     var body: some View {
@@ -22,5 +23,12 @@ struct AppReviewView: View {
             }
         }
         .formStyle(.grouped)
+        .task(load)
+    }
+
+    func load() async {
+        Task {
+            try await client.fetchVersions(of: app)
+        }
     }
 }
