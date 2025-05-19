@@ -25,3 +25,7 @@ struct VersionsView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    VersionsView(app: ASCApp.example)
+}

@@ -41,3 +41,7 @@ struct BuildsView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    BuildsView(app: ASCApp.example)
+}

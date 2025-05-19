@@ -65,6 +65,30 @@ struct ASCView: View {
         _client = State(initialValue: newClient)
     }
 
+#if DEBUG
+    // For the preview ONLY
+    init(
+        apps: [ASCApp],
+        selectedApp: ASCApp?,
+        selectedSection: AppSection?,
+        apiKey: String,
+        apiKeyID: String,
+        apiKeyIssuer: String
+    ) {
+        self.apps = apps
+        self.selectedApp = selectedApp
+        self.selectedSection = selectedSection
+
+        let newClient = ASCClient(
+            key: apiKey,
+            keyID: apiKeyID,
+            issuerID: apiKeyIssuer,
+        )
+
+        _client = State(initialValue: newClient)
+    }
+#endif
+
     /// Triggers loading our data, with some degree of error handling.
     func load() async {
         do {
@@ -107,4 +131,17 @@ struct ASCView: View {
 
         apps = fetchedApps
     }
+}
+
+#Preview {
+    let selectedApp = ASCApp.example
+    ASCView(
+        apps: [selectedApp],
+        selectedApp: selectedApp,
+        selectedSection: .basicInformation,
+        apiKey: "123",
+        apiKeyID: "123",
+        apiKeyIssuer: "123"
+    )
+    .environment(UserSettings())
 }

@@ -24,3 +24,7 @@ struct LocalizationsView: View {
         .formStyle(.grouped)
     }
 }
+
+#Preview {
+    LocalizationsView(app: ASCApp.example)
+}
