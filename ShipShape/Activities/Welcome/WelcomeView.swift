@@ -24,7 +24,7 @@ struct WelcomeView: View {
     }
 
     var body: some View {
-        VStack {
+        ScrollView {
             Text("Welcome to ShipShape!")
                 .font(.largeTitle)
 
@@ -56,6 +56,7 @@ struct WelcomeView: View {
         }
         .padding(10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .scrollBounceBehavior(.basedOnSize)
         .clipShape(.rect(cornerRadius: 20))
         .overlay {
             if isFileBeingDropped {
@@ -64,7 +65,10 @@ struct WelcomeView: View {
             }
         }
         .padding()
-        .dropDestination(for: URL.self, action: handleDrop) {
+        .dropDestination(for: Data.self, action: handleDataDrop) {
+            isFileBeingDropped = $0
+        }
+        .dropDestination(for: URL.self, action: handleURLDrop) {
             isFileBeingDropped = $0
         }
         .alert("", isPresented: $isShowingError) {
@@ -74,25 +78,36 @@ struct WelcomeView: View {
         }
     }
 
-    /// Handles users dropping their p8 key for App Store Connect.
-    func handleDrop(items: [URL], point: CGPoint) -> Bool {
+    /// iOS: Handles users dropping their p8 key for App Store Connect.
+    func handleDataDrop(items: [Data], point: CGPoint) -> Bool {
+        guard let data = items.first else { return false }
+
+        let contents = String(decoding: data, as: UTF8.self)
+        return loadKey(contents)
+    }
+
+    /// macOS: Handles users dropping their p8 key for App Store Connect.
+    func handleURLDrop(items: [URL], point: CGPoint) -> Bool {
         guard let url = items.first else { return false }
 
         do {
             let contents = try String(contentsOf: url)
-
-            if validate(keyString: contents) {
-                assign(keyString: contents, from: url)
-                return true
-            } else {
-                errorMessage = "The file you dropped does not appear to be a valid App Store Connect API key."
-                isShowingError = true
-                return false
-            }
+            return loadKey(contents, from: url)
         } catch {
             errorMessage = "There was a problem reading the key file."
             isShowingError = true
             print(error.localizedDescription)
+            return false
+        }
+    }
+
+    func loadKey(_ contents: String, from url: URL? = nil) -> Bool {
+        if validate(keyString: contents) {
+            assign(keyString: contents, from: url)
+            return true
+        } else {
+            errorMessage = "The file you dropped does not appear to be a valid App Store Connect API key."
+            isShowingError = true
             return false
         }
     }
@@ -103,8 +118,11 @@ struct WelcomeView: View {
     }
 
     /// Stashes the key away, and also attempts to read the key ID.
-    func assign(keyString: String, from url: URL) {
+    func assign(keyString: String, from url: URL?) {
         key = keyString
+
+        // If we weren't given a URL to the key, exit now.
+        guard let url else { return }
 
         // Key filenames have the format AuthKey_???.p8, and
         // that ??? part should be the key ID.

@@ -2,13 +2,14 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/macOS-14+-blue.svg" />
+    <img src="https://img.shields.io/badge/iOS-17+-orange.svg" />
     <img src="https://img.shields.io/badge/Swift-6.1-brightgreen.svg" />
     <a href="https://twitter.com/twostraws">
         <img src="https://img.shields.io/badge/Contact-@twostraws-lightgrey.svg?style=flat" alt="Twitter: @twostraws" />
     </a>
 </p>
 
-ShipShape is a free macOS app for accessing Apple's App Store Connect API.
+ShipShape is a free app for accessing Apple's App Store Connect API.
 
 ShipShape was initially created in a [Hacking with Swift+ live stream](https://www.hackingwithswift.com/plus/live-streams/shipshape), but the project is now open sourced so it can be developed further. Our ambition is to produce an app that reads and writes all of the App Store Connect API, making a powerful tool free for everyone.
 
@@ -31,7 +32,6 @@ This is an all-new project, so there are lots of opportunities to get involved:
 - Writing tests for any parts of the code.
 - Contribute feature suggestions by filing issues.
 - Adding documentation, translations, or code comments.
-- Porting it to iOS – it's all SwiftUI, so this shouldn't be too tricky.
 
 Everyone is welcome to contribute something, no matter your skill level. This is a great place to learn something new – if you have any doubts about making changes or contributing on GitHub, please join the #ControlRoom channel on the [Hacking with Swift Slack workspace](https://www.hackingwithswift.com/slack).
 
