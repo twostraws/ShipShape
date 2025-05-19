@@ -1,5 +1,5 @@
 //
-// ASCVersionLocalization.swift
+// ASCAppScreenshotSet.swift
 // ShipShape
 // https://www.github.com/twostraws/ShipShape
 // See LICENSE for license information.
@@ -7,19 +7,20 @@
 
 import Foundation
 
-/// Metadata about a single version of an app.
-struct ASCVersionLocalization: Decodable, Hashable, Identifiable {
+struct ASCAppScreenshotSet: Decodable, Hashable, Identifiable {
     var id: String
     var attributes: Attributes
-    var screenshotSets = [ASCAppScreenshotSet]()
+    var screenshots = [ASCAppScreenshot]()
 
     enum CodingKeys: CodingKey {
         case id, attributes
     }
 
     struct Attributes: Decodable, Hashable {
-        var description: String?
-        var locale: String?
-        var keywords: String?
+        var screenshotDisplayType: String
     }
+}
+
+struct ASCAppScreenshotSetResponse: Decodable {
+    var data: [ASCAppScreenshotSet]
 }

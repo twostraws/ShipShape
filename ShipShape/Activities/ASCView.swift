@@ -27,8 +27,10 @@ struct ASCView: View {
                 List(selection: $selectedSection) {
                     NavigationLink("App Review", value: AppSection.appReview)
                     NavigationLink("Basic Information", value: AppSection.basicInformation)
+                    NavigationLink("Builds", value: AppSection.builds)
                     NavigationLink("Localizations", value: AppSection.localizations)
                     NavigationLink("Reviews", value: AppSection.customerReviews)
+                    NavigationLink("Screenshots", value: AppSection.screenshots)
                     NavigationLink("Versions", value: AppSection.versions)
                 }
             } else {
@@ -39,8 +41,10 @@ struct ASCView: View {
                 switch selectedSection {
                 case .appReview: AppReviewView(app: selectedApp)
                 case .basicInformation: BasicInformationView(app: selectedApp)
+                case .builds: BuildsView(app: selectedApp)
                 case .customerReviews: CustomerReviewsView(app: selectedApp)
                 case .localizations: LocalizationsView(app: selectedApp)
+                case .screenshots: ScreenshotsView(app: selectedApp)
                 case .versions: VersionsView(app: selectedApp)
                 }
             } else {
@@ -78,20 +82,27 @@ struct ASCView: View {
         }
     }
 
-    /// Performs initial load of all our data.
+    /// Performs initial load of all our data. This should really be pulled apart to be lazy, so we load data as the user
+    /// browses to a particular screen, or if they choose to refresh a screen.
     func loadAppData() async throws {
         var fetchedApps = try await client.fetchApps()
 
         for (index, app) in fetchedApps.enumerated() {
             async let reviews = client.fetchReviews(for: app)
             async let versions = client.fetchVersions(of: app)
+            async let builds = try await client.fetchBuilds(of: app)
 
             fetchedApps[index].customerReviews = try await reviews
+            fetchedApps[index].builds = try await builds
 
             let versionData = try await versions
             fetchedApps[index].versions = versionData.data
-            fetchedApps[index].localizations = versionData.appStoreVersionLocalizations
             fetchedApps[index].reviewDetails = versionData.appStoreReviewDetails
+
+            for var localization in versionData.appStoreVersionLocalizations {
+                localization.screenshotSets = try await client.fetchScreenshotSets(of: localization)
+                fetchedApps[index].localizations.append(localization)
+            }
         }
 
         apps = fetchedApps

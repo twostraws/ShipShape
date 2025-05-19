@@ -28,4 +28,27 @@ extension ASCClient {
         let response = try await fetch(url, as: ASCAppVersionResponse.self)
         return response
     }
+
+    /// Reads all the builds submitted for an app.
+    func fetchBuilds(of app: ASCApp) async throws -> [ASCAppBuild] {
+        let url = "/apps/\(app.id)/builds"
+        let response = try await fetch(url, as: ASCAppBuildResponse.self)
+        return response.data
+    }
+
+    /// Reads all the screenshot sets submitted for an app localization.
+    func fetchScreenshotSets(of version: ASCVersionLocalization) async throws -> [ASCAppScreenshotSet] {
+        let url = "/appStoreVersionLocalizations/\(version.id)/appScreenshotSets"
+        let response = try await fetch(url, as: ASCAppScreenshotSetResponse.self)
+
+        var screenshotSets = response.data
+
+        for (index, screenshotSet) in screenshotSets.enumerated() {
+            let url = "/appScreenshotSets/\(screenshotSet.id)/appScreenshots"
+            let response = try await fetch(url, as: ASCAppScreenshotResponse.self)
+            screenshotSets[index].screenshots.append(contentsOf: response.data)
+        }
+
+        return screenshotSets
+    }
 }

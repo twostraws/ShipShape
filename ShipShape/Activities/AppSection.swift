@@ -11,7 +11,9 @@ import SwiftUI
 enum AppSection: String {
     case appReview
     case basicInformation
+    case builds
     case customerReviews
     case localizations
+    case screenshots
     case versions
 }

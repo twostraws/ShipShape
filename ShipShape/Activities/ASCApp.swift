@@ -18,6 +18,7 @@ struct ASCApp: Decodable, Hashable, Identifiable {
     var versions = [ASCAppVersion]()
     var localizations = [ASCVersionLocalization]()
     var reviewDetails = [ASCReviewDetails]()
+    var builds = [ASCAppBuild]()
 
     enum CodingKeys: CodingKey {
         case id, attributes
