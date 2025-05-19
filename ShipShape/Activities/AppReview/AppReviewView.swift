@@ -32,3 +32,7 @@ struct AppReviewView: View {
         }
     }
 }
+
+#Preview {
+    AppReviewView(app: ASCApp.example)
+}

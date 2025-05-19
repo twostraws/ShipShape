@@ -44,6 +44,23 @@ class ASCApp: Decodable, Hashable, Identifiable {
         var bundleId: String
         var sku: String
     }
+
+    // MARK: Example
+    static var example: ASCApp {
+        return ASCApp(
+            id: "123",
+            attributes: Attributes(
+                name: "Epic App Idea",
+                bundleId: "amazing.app.id",
+                sku: "123"
+            ),
+            customerReviews: [ASCCustomerReview.example, ASCCustomerReview.example2],
+            versions: [ASCAppVersion.example, ASCAppVersion.example2],
+            localizations: [ASCVersionLocalization.example],
+            reviewDetails: [ASCReviewDetails.example],
+            builds: [ASCAppBuild.example]
+        )
+    }
 }
 
 struct ASCAppResponse: Decodable {

@@ -49,3 +49,7 @@ struct BuildsView: View {
         }
     }
 }
+
+#Preview {
+    BuildsView(app: ASCApp.example)
+}

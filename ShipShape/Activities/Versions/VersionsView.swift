@@ -33,3 +33,7 @@ struct VersionsView: View {
         }
     }
 }
+
+#Preview {
+    VersionsView(app: ASCApp.example)
+}

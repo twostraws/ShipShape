@@ -43,3 +43,7 @@ struct CustomerReviewsView: View {
         }
     }
 }
+
+#Preview {
+    CustomerReviewsView(app: ASCApp.example)
+}

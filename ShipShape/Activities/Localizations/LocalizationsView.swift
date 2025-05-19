@@ -32,3 +32,7 @@ struct LocalizationsView: View {
         }
     }
 }
+
+#Preview {
+    LocalizationsView(app: ASCApp.example)
+}
