@@ -20,6 +20,9 @@ Once ShipShape is stable, the plan is to merge it into another project called [C
 
 You'll need Xcode 16 or later to build the code, along with an active App Store Connect account in order to connect to the API.
 
+> [!CAUTION]  
+> You need to set the Team and Bundle Identifier values to something of your choosing. To avoid committing these changes to source control, we highly recommend you run `git update-index --assume-unchanged ShipShape.xcodeproj/project.pbxproj` after you clone the repository, which will stop Git from including this change in any commits you make.
+
 When you run ShipShape for the first time, it will guide you through creating a private key to access the App Store Connect API.
 
 
