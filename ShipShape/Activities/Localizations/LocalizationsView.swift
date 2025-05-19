@@ -15,8 +15,16 @@ struct LocalizationsView: View {
     var body: some View {
         Form {
             if let localization = app.localizations.first {
-                LabeledContent("Description", value: localization.attributes.description ?? DefaultValues.notSet)
-                LabeledContent("Keywords", value: localization.attributes.keywords ?? DefaultValues.notSet)
+                Section("Description") {
+                    Text(localization.attributes.description ?? DefaultValues.notSet)
+                        .textSelection(.enabled)
+                }
+
+                Section("Keywords") {
+                    Text(localization.attributes.keywords?.replacing(",", with: ", ") ?? DefaultValues.notSet)
+                        .textSelection(.enabled)
+                }
+
                 LabeledContent("Locale", value: localization.attributes.locale ?? DefaultValues.unknown)
             } else {
                 Text("No localizations.")
