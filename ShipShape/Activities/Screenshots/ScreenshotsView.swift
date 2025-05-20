@@ -25,6 +25,9 @@ struct ScreenshotsView: View {
             .formStyle(.grouped)
         }
         .task(load)
+        .toolbar {
+            ReloadButton(action: load)
+        }
     }
 
     func load() async {

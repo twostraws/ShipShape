@@ -39,6 +39,9 @@ struct CustomerReviewsView: View {
             .formStyle(.grouped)
         }
         .task(load)
+        .toolbar {
+            ReloadButton(action: load)
+        }
     }
 
     func load() async {
