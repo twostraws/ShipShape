@@ -18,7 +18,7 @@ struct ScreenshotsView: View {
             Form {
                 if let localization = app.localizations.first {
                     ForEach(localization.screenshotSets) { screenshotSet in
-                        Section(screenshotSet.attributes.screenshotDisplayType) {
+                        Section(screenshotSet.attributes.screenshotDisplayType.convertFromDeviceName) {
                             ScrollView(.horizontal) {
                                 HStack {
                                     ForEach(screenshotSet.screenshots) { screenshot in

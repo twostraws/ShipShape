@@ -18,9 +18,9 @@ struct VersionsView: View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
                 if let version = app.versions.first {
-                    LabeledContent("Platform", value: version.attributes.platform ?? DefaultValues.unknown)
+                    LabeledContent("Platform", value: version.attributes.platform?.convertFromPlatform ?? DefaultValues.unknown)
                     LabeledContent("Version", value: version.attributes.versionString ?? DefaultValues.notSet)
-                    LabeledContent("State", value: version.attributes.appStoreState ?? DefaultValues.unknown)
+                    LabeledContent("State", value: version.attributes.appStoreState?.convertFromAppStoreState ?? DefaultValues.unknown)
                     LabeledContent("Copyright", value: version.attributes.copyright ?? DefaultValues.notSet)
                 } else {
                     Text("No versions.")
