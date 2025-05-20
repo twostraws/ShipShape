@@ -48,7 +48,20 @@ class ASCClient {
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return try decoder.decode(T.self, from: result)
+
+        do {
+            return try decoder.decode(T.self, from: result)
+        } catch DecodingError.keyNotFound(let key, let context) {
+            fatalError("Failed to decode due to missing key '\(key)' - \(context.debugDescription)")
+        } catch DecodingError.typeMismatch(_, let context) {
+            fatalError("Failed to decode due to type mismatch - \(context.debugDescription)")
+        } catch DecodingError.valueNotFound(let type, let context) {
+            fatalError("Failed to decode due to missing \(type) value - \(context.debugDescription)")
+        } catch DecodingError.dataCorrupted(_) {
+            fatalError("Failed to decode: it appears to be invalid JSON.")
+        } catch {
+            fatalError("Failed to decode: \(error.localizedDescription)")
+        }
     }
 
     /// Creates a valid JSON Web Token for ASC.
