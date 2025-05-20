@@ -13,6 +13,7 @@ enum AppSection: String {
     case basicInformation
     case builds
     case customerReviews
+    case inAppPurchases
     case localizations
     case screenshots
     case versions

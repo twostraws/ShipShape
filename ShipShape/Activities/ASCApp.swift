@@ -15,11 +15,12 @@ final class ASCApp: Decodable, Hashable, Identifiable {
 
     var attributes: Attributes
 
+    var builds = [ASCAppBuild]()
     var customerReviews = [ASCCustomerReview]()
-    var versions = [ASCAppVersion]()
+    var inAppPurchases = [ASCInAppPurchase]()
     var localizations = [ASCVersionLocalization]()
     var reviewDetails = [ASCReviewDetails]()
-    var builds = [ASCAppBuild]()
+    var versions = [ASCAppVersion]()
 
     static func == (lhs: ASCApp, rhs: ASCApp) -> Bool {
         lhs.id == rhs.id

@@ -16,6 +16,9 @@ struct ASCView: View {
     @State private var selectedSection: AppSection?
     @State private var loadState = LoadState.loading
 
+    @State private var isShowingDebugInput = false
+    @AppStorage("debugURL") private var debugURL = ""
+
     var body: some View {
         NavigationSplitView {
             LoadingView(loadState: $loadState, retryAction: load) {
@@ -27,6 +30,7 @@ struct ASCView: View {
                     NavigationLink("App Review", value: AppSection.appReview)
                     NavigationLink("Basic Information", value: AppSection.basicInformation)
                     NavigationLink("Builds", value: AppSection.builds)
+                    NavigationLink("In-app Purchases", value: AppSection.inAppPurchases)
                     NavigationLink("Localizations", value: AppSection.localizations)
                     NavigationLink("Reviews", value: AppSection.customerReviews)
                     NavigationLink("Screenshots", value: AppSection.screenshots)
@@ -43,6 +47,7 @@ struct ASCView: View {
                     case .basicInformation: BasicInformationView(app: selectedApp)
                     case .builds: BuildsView(app: selectedApp)
                     case .customerReviews: CustomerReviewsView(app: selectedApp)
+                    case .inAppPurchases: InAppPurchasesView(app: selectedApp)
                     case .localizations: LocalizationsView(app: selectedApp)
                     case .screenshots: ScreenshotsView(app: selectedApp)
                     case .versions: VersionsView(app: selectedApp)
@@ -57,6 +62,18 @@ struct ASCView: View {
         .navigationTitle("ShipShape")
         .environment(client)
         .task(load)
+        .toolbar {
+            Button("Make Debug Request") {
+                isShowingDebugInput = true
+            }
+        }
+        .alert("What URL do you want to access?", isPresented: $isShowingDebugInput) {
+            Button("OK", action: makeDebugRequest)
+            Button("Cancel", role: .cancel) { }
+            TextField("Enter a URL", text: $debugURL)
+        } message: {
+            Text("This will fetch the URL and print it to the debug console, then trigger a crash.")
+        }
     }
 
     init(apiKey: String, apiKeyID: String, apiKeyIssuer: String) {
@@ -77,6 +94,16 @@ struct ASCView: View {
             loadState = .loaded
         } catch {
             loadState = .failed
+        }
+    }
+
+    func makeDebugRequest() {
+        Task {
+            // Strip out the base URL if it's present.
+            var rootURL = debugURL
+            rootURL.replace("https://api.appstoreconnect.apple.com", with: "")
+
+            _ = try await client.fetch(rootURL, as: String.self)
         }
     }
 }

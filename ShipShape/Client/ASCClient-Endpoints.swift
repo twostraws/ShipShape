@@ -62,4 +62,14 @@ extension ASCClient {
 
         apps[appIndex].localizations[versionIndex].screenshotSets = screenshotSets
     }
+
+    /// Reads all in-app purchases for an app.
+    func fetchInAppPurchases(of app: ASCApp) async throws {
+        guard let appIndex = apps.firstIndex(of: app) else { return }
+
+        let url = "/apps/\(app.id)/inAppPurchasesV2"
+        let response = try await fetch(url, as: ASCInAppPurchaseResponse.self)
+
+        apps[appIndex].inAppPurchases = response.data
+    }
 }
