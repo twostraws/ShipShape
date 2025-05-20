@@ -16,5 +16,6 @@ enum AppSection: String {
     case inAppPurchases
     case localizations
     case screenshots
+    case subscriptions
     case versions
 }
