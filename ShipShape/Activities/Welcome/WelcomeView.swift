@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// Handles all first-run input and validation.
 struct WelcomeView: View {
     @Environment(UserSettings.self) var userSettings
 
+    @State private var isShowingFileImporter = false
     @State private var isFileBeingDropped = false
     @State private var isShowingError = false
     @State private var errorMessage = ""
@@ -41,19 +43,30 @@ struct WelcomeView: View {
                 Go to **Users and Access** then **Integrations** to make your key. \
                 We suggest selecting Admin for access options.
 
-                When you're done, download the key and drag it here. \
+                When you're done, download the key and drag it here, or click the button below to select it. \
                 **Note:** You can download this key only once, so store it in a safe place.
                 """)
-            } else {
-                Text("To complete setup, please Key ID and Issuer ID fields below:")
+                .padding(.bottom, 20)
 
-                Form {
+                Button("Select a file") {
+                    isShowingFileImporter = true
+                }
+                .buttonStyle(.borderedProminent)
+            } else {
+                Text("To complete setup, please complete the Key ID and Issuer ID fields below:")
+
+                VStack {
                     TextField("Key ID:", text: $keyID)
+                        .textFieldStyle(.roundedBorder)
+
                     TextField("Issuer ID:", text: $keyIssuerID)
+                        .textFieldStyle(.roundedBorder)
 
                     Button("Continue", action: saveCredentials)
                         .disabled(isMissingUserData)
+                        .buttonStyle(.borderedProminent)
                 }
+                .frame(maxWidth: 500)
             }
         }
         .padding(10)
@@ -73,6 +86,11 @@ struct WelcomeView: View {
         .dropDestination(for: URL.self, action: handleURLDrop) {
             isFileBeingDropped = $0
         }
+        .fileImporter(
+            isPresented: $isShowingFileImporter,
+            allowedContentTypes: [UTType(filenameExtension: "p8") ?? .data],
+            onCompletion: handleFileImport
+        )
         .alert("", isPresented: $isShowingError) {
             Button("OK") { }
         } message: {
@@ -89,8 +107,14 @@ struct WelcomeView: View {
     }
 
     /// macOS: Handles users dropping their p8 key for App Store Connect.
-    func handleURLDrop(items: [URL], point: CGPoint) -> Bool {
+    @discardableResult func handleURLDrop(items: [URL], point: CGPoint) -> Bool {
         guard let url = items.first else { return false }
+
+        guard url.startAccessingSecurityScopedResource() else {
+             return false
+        }
+
+        defer { url.stopAccessingSecurityScopedResource() }
 
         do {
             let contents = try String(contentsOf: url)
@@ -100,6 +124,13 @@ struct WelcomeView: View {
             isShowingError = true
             print(error.localizedDescription)
             return false
+        }
+    }
+
+    /// iOS and macOS: Handle users importing a file through the file importer.
+    func handleFileImport(_ result: Result<URL, any Error>) {
+        if case let .success(url) = result {
+            handleURLDrop(items: [url], point: .zero)
         }
     }
 
