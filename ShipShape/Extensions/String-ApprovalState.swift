@@ -12,7 +12,7 @@ extension String {
     /// `APPROVED` becomes "Approved".
     var convertFromApprovalState: String {
         switch self {
-        case "APPROVED": "Approved"
+        case "APPROVED": "Approved 🟢"
         default: self
         }
     }
