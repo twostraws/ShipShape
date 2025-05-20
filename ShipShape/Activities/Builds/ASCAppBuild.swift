@@ -19,7 +19,7 @@ struct ASCAppBuild: Decodable, Hashable, Identifiable {
         var minOsVersion: String
         var iconAssetToken: ASCImageAsset
     }
-    
+
     // MARK: Example
     static var example: ASCAppBuild {
         return ASCAppBuild(

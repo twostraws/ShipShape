@@ -1,3 +1,6 @@
 line_length:
   warning: 150
   error: 200
+
+disabled_rules:
+  optional_data_string_conversion

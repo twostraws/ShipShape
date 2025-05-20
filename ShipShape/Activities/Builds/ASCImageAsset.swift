@@ -20,7 +20,7 @@ struct ASCImageAsset: Decodable, Hashable {
             .replacing("{f}", with: "jpg")
         return URL(string: resolvedString)
     }
-    
+
     // MARK: Example
     static var example: ASCImageAsset {
         return ASCImageAsset(
