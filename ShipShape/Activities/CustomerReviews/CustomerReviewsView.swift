@@ -10,36 +10,47 @@ import SwiftUI
 /// Displays all reviews for a single app.
 struct CustomerReviewsView: View {
     @Environment(ASCClient.self) var client
+    @State private var loadState = LoadState.loading
+
     var app: ASCApp
 
     var body: some View {
-        Form {
-            if app.customerReviews.isEmpty {
-                Text("No reviews")
-            } else {
-                ForEach(app.customerReviews) { review in
-                    Section {
-                        Text(review.attributes.body ?? DefaultValues.unknown)
-                            .textSelection(.enabled)
-                    } header: {
-                        HStack {
-                            Text(review.attributes.title ?? DefaultValues.notSet)
-                            Spacer()
-                            RatingView(rating: .constant(review.attributes.rating))
+        LoadingView(loadState: $loadState, retryAction: load) {
+            Form {
+                if app.customerReviews.isEmpty {
+                    Text("No reviews")
+                } else {
+                    ForEach(app.customerReviews) { review in
+                        Section {
+                            Text(review.attributes.body ?? DefaultValues.unknown)
+                                .textSelection(.enabled)
+                        } header: {
+                            HStack {
+                                Text(review.attributes.title ?? DefaultValues.notSet)
+                                Spacer()
+                                RatingView(rating: .constant(review.attributes.rating))
+                            }
+                        } footer: {
+                            Text(review.attributes.reviewerNickname ?? DefaultValues.unknown)
                         }
-                    } footer: {
-                        Text(review.attributes.reviewerNickname ?? DefaultValues.unknown)
                     }
                 }
             }
+            .formStyle(.grouped)
         }
-        .formStyle(.grouped)
         .task(load)
     }
 
     func load() async {
         Task {
-            try await client.fetchReviews(of: app)
+            do {
+                loadState = .loading
+                try await client.fetchReviews(of: app)
+                loadState = .loaded
+            } catch {
+                print(error.localizedDescription)
+                loadState = .failed
+            }
         }
     }
 }

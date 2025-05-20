@@ -14,13 +14,13 @@ struct ASCView: View {
     @State private var client: ASCClient
     @State private var selectedApp: ASCApp?
     @State private var selectedSection: AppSection?
+    @State private var loadState = LoadState.loading
 
     var body: some View {
         NavigationSplitView {
-            List(client.apps, selection: $selectedApp) { app in
-                NavigationLink(app.attributes.name, value: app)
+            LoadingView(loadState: $loadState, retryAction: retryLoad) {
+                AppListingView(selectedApp: $selectedApp)
             }
-            .frame(minWidth: 200)
         } content: {
             if selectedApp != nil {
                 List(selection: $selectedSection) {
@@ -55,8 +55,8 @@ struct ASCView: View {
 
         }
         .navigationTitle("ShipShape")
-        .task(load)
         .environment(client)
+        .task(load)
     }
 
     init(apiKey: String, apiKeyID: String, apiKeyIssuer: String) {
@@ -72,7 +72,10 @@ struct ASCView: View {
     /// Triggers loading our data, with some degree of error handling.
     func load() async {
         do {
+            loadState = .loading
             try await loadAppData()
+            loadState = .loaded
+            return
         } catch DecodingError.keyNotFound(let key, let context) {
             print("Failed to decode due to missing key '\(key)' - \(context.debugDescription)")
         } catch DecodingError.typeMismatch(_, let context) {
@@ -84,11 +87,17 @@ struct ASCView: View {
         } catch {
             print("Failed to decode: \(error.localizedDescription)")
         }
+
+        loadState = .failed
     }
 
     /// Performs initial load of our app data.
     func loadAppData() async throws {
         try await client.fetchApps()
+    }
+
+    func retryLoad() {
+        Task(operation: load)
     }
 }
 
