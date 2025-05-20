@@ -20,6 +20,7 @@ final class ASCApp: Decodable, Hashable, Identifiable {
     var inAppPurchases = [ASCInAppPurchase]()
     var localizations = [ASCVersionLocalization]()
     var reviewDetails = [ASCReviewDetails]()
+    var subscriptionGroups = [ASCSubscriptionGroup]()
     var versions = [ASCAppVersion]()
 
     static func == (lhs: ASCApp, rhs: ASCApp) -> Bool {

@@ -34,6 +34,7 @@ struct ASCView: View {
                     NavigationLink("Localizations", value: AppSection.localizations)
                     NavigationLink("Reviews", value: AppSection.customerReviews)
                     NavigationLink("Screenshots", value: AppSection.screenshots)
+                    NavigationLink("Subscriptions", value: AppSection.subscriptions)
                     NavigationLink("Versions", value: AppSection.versions)
                 }
             } else {
@@ -50,6 +51,7 @@ struct ASCView: View {
                     case .inAppPurchases: InAppPurchasesView(app: selectedApp)
                     case .localizations: LocalizationsView(app: selectedApp)
                     case .screenshots: ScreenshotsView(app: selectedApp)
+                    case .subscriptions: SubscriptionsView(app: selectedApp)
                     case .versions: VersionsView(app: selectedApp)
                     }
                 }

@@ -70,6 +70,10 @@ struct ASCAppVersionResponse: Decodable {
 
                 case .reviewDetails(let value):
                     appStoreReviewDetails.append(value)
+
+                default:
+                    // Ignore all other types of included data.
+                    break
                 }
             }
         }

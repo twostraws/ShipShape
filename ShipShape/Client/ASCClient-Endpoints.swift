@@ -72,4 +72,20 @@ extension ASCClient {
 
         apps[appIndex].inAppPurchases = response.data
     }
+
+    /// Reads all subscriptions for an app.
+    func fetchSubscriptions(of app: ASCApp) async throws {
+        guard let appIndex = apps.firstIndex(of: app) else { return }
+
+        let url = "/apps/\(app.id)/subscriptionGroups?include=subscriptions,subscriptionGroupLocalizations&fields[subscriptions]=name,productId,familySharable,state,subscriptionPeriod,reviewNote"
+        let response = try await fetch(url, as: ASCSubscriptionGroupResponse.self)
+        var subscriptionGroups = response.data
+
+        for index in response.data.indices {
+            subscriptionGroups[index].subscriptions = response.subscriptions
+            subscriptionGroups[index].subscriptionGroupLocalizations = response.subscriptionGroupLocalizations
+        }
+
+        apps[appIndex].subscriptionGroups = subscriptionGroups
+    }
 }
