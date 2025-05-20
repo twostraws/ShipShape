@@ -21,7 +21,7 @@ struct ScreenshotSetView: View {
                                 image
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(maxWidth: 300, maxHeight: 500)
+                                    .frame(maxHeight: 300)
                             case .failure:
                                 Image(systemName: "questionmark.diamond")
                             default:
