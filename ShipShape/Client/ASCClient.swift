@@ -23,10 +23,14 @@ class ASCClient {
     /// The Issuer ID; one ID per team.
     var issuerID: String
 
-    init(key: String, keyID: String, issuerID: String) {
+    /// The URLSession-compatible type to use for networking.
+    var session: any URLSessionProtocol
+
+    init(key: String, keyID: String, issuerID: String, session: any URLSessionProtocol = URLSession.shared) {
         self.key = key
         self.keyID = keyID
         self.issuerID = issuerID
+        self.session = session
     }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
@@ -39,7 +43,7 @@ class ASCClient {
 
         var request = URLRequest(url: url)
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
-        let (result, _) = try await URLSession.shared.data(for: request)
+        let (result, _) = try await session.data(for: request, delegate: nil)
 
         // Print the JSON we get back, for inspection purposes.
         if let stringResult = String(data: result, encoding: .utf8) {
