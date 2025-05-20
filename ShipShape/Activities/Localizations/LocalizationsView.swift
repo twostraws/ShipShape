@@ -11,13 +11,24 @@ import SwiftUI
 struct LocalizationsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @State private var availableLocales: [String] = []
+    @State private var selectedLocale: String = ""
 
     var app: ASCApp
 
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
-                if let localization = app.localizations.first {
+                    Picker("Locale", selection: $selectedLocale) {
+                        ForEach(availableLocales, id: \.self) { locale in
+                            Text(Locale.current.localizedString(forIdentifier: locale) ?? locale).tag(locale)
+                        }
+                    }
+                    .pickerStyle(.menu)
+
+                if let localization = app.localizations.first(where: { locale in
+                    locale.attributes.locale == selectedLocale
+                }) {
                     Section("Description") {
                         Text(localization.attributes.description ?? DefaultValues.notSet)
                             .textSelection(.enabled)
@@ -28,7 +39,7 @@ struct LocalizationsView: View {
                             .textSelection(.enabled)
                     }
 
-                    LabeledContent("Locale", value: localization.attributes.locale ?? DefaultValues.unknown)
+                    // LabeledContent("Locale", value: localization.attributes.locale ?? DefaultValues.unknown)
                 } else {
                     Text("No localizations.")
                 }
@@ -41,16 +52,25 @@ struct LocalizationsView: View {
         }
     }
 
+    @MainActor
     func load() async {
-        Task {
-            do {
-                loadState = .loading
-                try await client.fetchVersions(of: app)
-                loadState = .loaded
-            } catch {
-                print(error.localizedDescription)
-                loadState = .failed
+        do {
+            loadState = .loading
+            try await client.fetchVersions(of: app)
+
+            let locales = Set(app.localizations.compactMap { $0.attributes.locale })
+            availableLocales = Array(locales).sorted()
+
+            DispatchQueue.main.async {
+                if selectedLocale.isEmpty {
+                    selectedLocale = app.attributes.primaryLocale
+                }
             }
+
+            loadState = .loaded
+        } catch {
+            print(error.localizedDescription)
+            loadState = .failed
         }
     }
 }

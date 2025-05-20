@@ -63,6 +63,7 @@ final class ASCApp: Decodable, Hashable, Identifiable {
         var name: String
         var bundleId: String
         var sku: String
+        var primaryLocale: String
     }
 
     // MARK: Example
@@ -72,7 +73,8 @@ final class ASCApp: Decodable, Hashable, Identifiable {
             attributes: Attributes(
                 name: "Epic App Idea",
                 bundleId: "amazing.app.id",
-                sku: "123"
+                sku: "123",
+                primaryLocale: "en-US"
             ),
             customerReviews: [ASCCustomerReview.example, ASCCustomerReview.example2],
             versions: [ASCAppVersion.example, ASCAppVersion.example2],
