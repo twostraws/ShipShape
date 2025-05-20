@@ -25,6 +25,9 @@ class ASCClient {
 
     /// The URLSession-compatible type to use for networking.
     var session: any URLSessionProtocol
+    
+    @ObservationIgnored
+    @Logger private var logger
 
     init(key: String, keyID: String, issuerID: String, session: any URLSessionProtocol = URLSession.shared) {
         self.key = key
@@ -45,9 +48,9 @@ class ASCClient {
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
         let (result, _) = try await session.data(for: request, delegate: nil)
 
-        // Print the JSON we get back, for inspection purposes.
+        // Log the JSON we get back, for inspection purposes.
         if let stringResult = String(data: result, encoding: .utf8) {
-            print(stringResult)
+            logger.debug("\(stringResult)")
         }
 
         let decoder = JSONDecoder()

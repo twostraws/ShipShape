@@ -20,6 +20,8 @@ struct WelcomeView: View {
     @State private var key = ""
     @State private var keyID = ""
     @State private var keyIssuerID = ""
+    
+    @Logger private var logger
 
     var isMissingUserData: Bool {
         key.isEmpty || keyID.isEmpty || keyIssuerID.isEmpty
@@ -122,7 +124,7 @@ struct WelcomeView: View {
         } catch {
             errorMessage = "There was a problem reading the key file."
             isShowingError = true
-            print(error.localizedDescription)
+            logger.error("\(error.localizedDescription)")
             return false
         }
     }

@@ -11,6 +11,7 @@ import SwiftUI
 struct VersionsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -41,7 +42,7 @@ struct VersionsView: View {
                 try await client.fetchVersions(of: app)
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }

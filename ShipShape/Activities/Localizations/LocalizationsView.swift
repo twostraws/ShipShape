@@ -13,6 +13,7 @@ struct LocalizationsView: View {
     @State private var loadState = LoadState.loading
     @State private var availableLocales: [String] = []
     @State private var selectedLocale: String = ""
+    @Logger private var logger
 
     var app: ASCApp
 
