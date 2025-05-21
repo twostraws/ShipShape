@@ -8,9 +8,13 @@
 import Foundation
 
 /// A review from an end user.
-struct ASCCustomerReview: Decodable, Hashable, Identifiable {
+struct ASCCustomerReview: Comparable, Decodable, Hashable, Identifiable {
     var id: String
     var attributes: Attributes
+
+    static func < (lhs: ASCCustomerReview, rhs: ASCCustomerReview) -> Bool {
+        lhs.attributes.createdDate < rhs.attributes.createdDate
+    }
 
     struct Attributes: Decodable, Hashable {
         var rating: Int

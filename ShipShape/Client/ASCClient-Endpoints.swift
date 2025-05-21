@@ -21,7 +21,9 @@ extension ASCClient {
 
         let url = "/v1/apps/\(app.id)/customerReviews"
         let response = try await get(url, as: ASCCustomerReviewResponse.self)
-        apps[index].customerReviews = response.data
+
+        // Place newest reviews first.
+        apps[index].customerReviews = response.data.sorted().reversed()
     }
 
     /// Reads all the public-facing App Store versions for an app.
