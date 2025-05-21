@@ -109,7 +109,5 @@ extension ASCClient {
 
         let response = try await fetch(url, as: ASCAppAvailabilityResponse.self)
         apps[appIndex].availability = response.data.sorted()
-
-        print(response.data.map(\.territory).sorted().joined(separator: "\n"))
     }
 }

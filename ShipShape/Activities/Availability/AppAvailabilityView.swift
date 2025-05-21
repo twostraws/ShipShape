@@ -21,7 +21,10 @@ struct AppAvailabilityView: View {
                     Text("No availability data.")
                 } else {
                     ForEach(app.availability) { availability in
-                        LabeledContent(availability.territory.convertFromTerritory, value: availability.attributes.contentStatuses.convertFromContentStatus)
+                        LabeledContent(
+                            availability.territory.convertFromTerritory,
+                            value: availability.attributes.contentStatuses.convertFromContentStatus
+                        )
                     }
                 }
             }
