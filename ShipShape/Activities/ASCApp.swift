@@ -9,7 +9,7 @@ import Foundation
 
 /// One app from App Store Connect.
 @Observable
-final class ASCApp: Decodable, Hashable, Identifiable {
+final class ASCApp: Comparable, Decodable, Hashable, Identifiable {
     /// The app's unique identifier.
     var id: String
 
@@ -19,12 +19,17 @@ final class ASCApp: Decodable, Hashable, Identifiable {
     var customerReviews = [ASCCustomerReview]()
     var inAppPurchases = [ASCInAppPurchase]()
     var localizations = [ASCVersionLocalization]()
+    var performanceMetrics = [ASCPerformanceMetrics]()
     var reviewDetails = [ASCReviewDetails]()
     var subscriptionGroups = [ASCSubscriptionGroup]()
     var versions = [ASCAppVersion]()
 
     static func == (lhs: ASCApp, rhs: ASCApp) -> Bool {
         lhs.id == rhs.id
+    }
+
+    static func < (lhs: ASCApp, rhs: ASCApp) -> Bool {
+        lhs.attributes.name < rhs.attributes.name
     }
 
     func hash(into hasher: inout Hasher) {
