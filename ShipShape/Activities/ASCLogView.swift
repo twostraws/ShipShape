@@ -12,8 +12,8 @@ struct ASCLogView: View {
 
     var body: some View {
         List {
-            ForEach(client.logEntries) { entry in
-                Section("Click to print to Xcode log") {
+            Section("Click to print to Xcode log") {
+                ForEach(client.logEntries) { entry in
                     Button(entry.url) {
                         print(entry.response)
                     }
