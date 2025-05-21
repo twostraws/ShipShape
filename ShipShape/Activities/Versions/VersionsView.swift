@@ -13,18 +13,43 @@ struct VersionsView: View {
     @State private var loadState = LoadState.loading
     @Logger private var logger
 
+    @State private var selectedPlatform = "IOS"
+
     var app: ASCApp
+
+    var matchingVersions: [ASCAppVersion] {
+        app.versions.filter {
+            $0.attributes.platform == selectedPlatform
+        }
+    }
+
+    var allPlatforms: [String] {
+        Set(app.versions.map(\.attributes.platform)).sorted()
+    }
 
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
-                if let version = app.versions.first {
-                    LabeledContent("Platform", value: version.attributes.platform?.convertFromPlatform ?? DefaultValues.unknown)
-                    LabeledContent("Version", value: version.attributes.versionString ?? DefaultValues.notSet)
-                    LabeledContent("State", value: version.attributes.appStoreState?.convertFromAppStoreState ?? DefaultValues.unknown)
-                    LabeledContent("Copyright", value: version.attributes.copyright ?? DefaultValues.notSet)
-                } else {
+                if matchingVersions.isEmpty {
                     Text("No versions.")
+                } else {
+                    if allPlatforms.count > 1 {
+                        Picker("Platform", selection: $selectedPlatform) {
+                            ForEach(allPlatforms, id: \.self) { platform in
+                                Text(platform.convertFromPlatform).tag(platform)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                    }
+
+                    ForEach(matchingVersions) { version in
+                        Section(version.attributes.versionString ?? DefaultValues.unknown) {
+                            LabeledContent("Platform", value: version.attributes.platform.convertFromPlatform)
+                            LabeledContent("State", value: version.attributes.appStoreState?.convertFromAppStoreState ?? DefaultValues.unknown)
+                            LabeledContent("Copyright", value: version.attributes.copyright ?? DefaultValues.notSet)
+                        }
+                    }
                 }
             }
             .formStyle(.grouped)
@@ -39,7 +64,10 @@ struct VersionsView: View {
         Task {
             do {
                 loadState = .loading
+
                 try await client.fetchVersions(of: app)
+                selectedPlatform = allPlatforms.first ?? "IOS"
+
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")
