@@ -1,0 +1,19 @@
+!!!
+%html{:lang => "#{current_page.hb_locale}"}
+  %head
+    %meta{:charset => 'UTF-8'}
+    %meta{:name => 'robots', :content => 'noindex'}
+    %title= current_page.data.title || "#{product_name} Help"
+  - classes = ["apd-topic", "Aside"]
+  - id = current_page.hb_NavId
+  %body{:dir => "ltr", :class => classes, :id => id}
+    %a{:name => id}
+
+    = yield
+
+-#
+  This layout will be used for every aside portion of your help book. The key
+  difference is that the meta robots prevents this page from being indexed,
+  because it's not a free-standing page. Additionally, it's a good idea to
+  assign your group-definition index files to this layout, as well, since
+  they have no content and we don’t want them indexed.

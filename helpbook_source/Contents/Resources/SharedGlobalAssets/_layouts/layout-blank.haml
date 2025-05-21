@@ -1,0 +1,11 @@
+!!!
+%html{:lang => "#{current_page.hb_locale}"}
+  %head
+    %meta{:charset => 'UTF-8'}
+    %meta{:name => 'robots', :content => 'noindex'}
+    %title= current_page.data.title || "#{product_name} Help"
+  %body
+
+-#
+  This layout should be used for pages with no content, such as the index.html
+  pages used as group metadata containers.
