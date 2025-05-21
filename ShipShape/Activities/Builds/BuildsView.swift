@@ -59,7 +59,7 @@ struct BuildsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchBuilds(of: app)
+                try await client.getBuilds(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

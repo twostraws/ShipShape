@@ -37,7 +37,7 @@ struct PerformanceMetricsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchPerformanceMetricsData(of: app)
+                try await client.getPerformanceMetricsData(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

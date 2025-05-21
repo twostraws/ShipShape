@@ -46,7 +46,7 @@ class ASCClient {
     }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
-    func fetch<T: Decodable>(_ urlString: String, as type: T.Type) async throws -> T {
+    func get<T: Decodable>(_ urlString: String, as type: T.Type) async throws -> T {
         guard let url = URL(string: "https://api.appstoreconnect.apple.com\(urlString)") else {
             fatalError("Malformed URL: \(urlString)")
         }
@@ -80,6 +80,71 @@ class ASCClient {
             fatalError("Failed to decode: it appears to be invalid JSON: \(context)")
         } catch {
             fatalError("Failed to decode: \(error.localizedDescription)")
+        }
+    }
+
+    func post<T: Encodable>(_ urlString: String, attaching content: T) async throws {
+        guard let url = URL(string: "https://api.appstoreconnect.apple.com\(urlString)") else {
+            fatalError("Malformed URL: \(urlString)")
+        }
+
+        let jwt = try await createJWT()
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = try JSONEncoder().encode(content)
+        request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
+        let (_, response) = try await session.data(for: request, delegate: nil)
+
+        if let response = response as? HTTPURLResponse {
+            switch response.statusCode {
+            case 201:
+                // all good
+                break
+            case 400:
+                logger.error("Bad request: \(url)")
+            case 401:
+                logger.error("Unauthorized post: \(url)")
+            case 403:
+                logger.error("Forbidden post: \(url)")
+            case 409:
+                logger.error("Post conflict: \(url)")
+            case 422:
+                logger.error("Post error: \(url)")
+            default:
+                logger.error("Unknown post response: \(url)")
+            }
+        }
+    }
+
+    func delete(_ urlString: String) async throws {
+        guard let url = URL(string: "https://api.appstoreconnect.apple.com\(urlString)") else {
+            fatalError("Malformed URL: \(urlString)")
+        }
+
+        let jwt = try await createJWT()
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
+        let (_, response) = try await session.data(for: request, delegate: nil)
+
+        if let response = response as? HTTPURLResponse {
+            switch response.statusCode {
+            case 204:
+                // all good
+                break
+            case 401:
+                logger.error("Unauthorized delete: \(url)")
+            case 403:
+                logger.error("Forbidden delete: \(url)")
+            case 404:
+                logger.error("Object to delete was not found: \(url)")
+            case 409:
+                logger.error("Delete conflict: \(url)")
+            default:
+                logger.error("Unknown delete response: \(url)")
+            }
         }
     }
 

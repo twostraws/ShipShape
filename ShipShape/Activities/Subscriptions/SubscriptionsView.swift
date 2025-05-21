@@ -55,7 +55,7 @@ struct SubscriptionsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchSubscriptions(of: app)
+                try await client.getSubscriptions(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

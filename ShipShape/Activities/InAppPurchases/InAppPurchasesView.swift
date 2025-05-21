@@ -44,7 +44,7 @@ struct InAppPurchasesView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchInAppPurchases(of: app)
+                try await client.getInAppPurchases(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

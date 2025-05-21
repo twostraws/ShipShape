@@ -39,7 +39,7 @@ struct AppAvailabilityView: View {
     func load() async {
         do {
             loadState = .loading
-            try await client.fetchAvailability(of: app)
+            try await client.getAvailability(of: app)
             loadState = .loaded
         } catch {
             logger.error("\(error.localizedDescription)")

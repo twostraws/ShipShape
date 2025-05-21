@@ -46,7 +46,7 @@ struct NominationsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchNominations(of: app)
+                try await client.getNominations(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

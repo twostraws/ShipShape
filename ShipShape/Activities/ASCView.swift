@@ -101,7 +101,7 @@ struct ASCView: View {
     func load() async {
         do {
             loadState = .loading
-            try await client.fetchApps()
+            try await client.getApps()
             loadState = .loaded
         } catch {
             loadState = .failed
@@ -114,7 +114,7 @@ struct ASCView: View {
             var rootURL = debugURL
             rootURL.replace("https://api.appstoreconnect.apple.com", with: "")
 
-            _ = try await client.fetch(rootURL, as: String.self)
+            _ = try await client.get(rootURL, as: String.self)
         }
     }
 }

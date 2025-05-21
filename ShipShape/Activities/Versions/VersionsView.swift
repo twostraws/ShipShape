@@ -65,7 +65,7 @@ struct VersionsView: View {
             do {
                 loadState = .loading
 
-                try await client.fetchVersions(of: app)
+                try await client.getVersions(of: app)
                 selectedPlatform = allPlatforms.first ?? "IOS"
 
                 loadState = .loaded

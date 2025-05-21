@@ -38,7 +38,7 @@ struct AppReviewView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchVersions(of: app)
+                try await client.getVersions(of: app)
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")

@@ -57,7 +57,7 @@ struct LocalizationsView: View {
     func load() async {
         do {
             loadState = .loading
-            try await client.fetchVersions(of: app)
+            try await client.getVersions(of: app)
 
             let locales = Set(app.localizations.compactMap { $0.attributes.locale })
             availableLocales = Array(locales).sorted()

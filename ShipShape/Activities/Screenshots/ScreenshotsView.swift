@@ -37,11 +37,11 @@ struct ScreenshotsView: View {
                 loadState = .loading
 
                 if app.localizations.isEmpty {
-                    try await client.fetchVersions(of: app)
+                    try await client.getVersions(of: app)
                 }
 
                 guard let localization = app.localizations.first else { return }
-                try await client.fetchScreenshotSets(of: localization, for: app)
+                try await client.getScreenshotSets(of: localization, for: app)
 
                 loadState = .loaded
             } catch {
