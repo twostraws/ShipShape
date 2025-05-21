@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Translation
 
 /// Displays all reviews for a single app.
 struct CustomerReviewsView: View {
@@ -21,20 +22,7 @@ struct CustomerReviewsView: View {
                 if app.customerReviews.isEmpty {
                     Text("No reviews")
                 } else {
-                    ForEach(app.customerReviews) { review in
-                        Section {
-                            Text(review.attributes.body ?? DefaultValues.unknown)
-                                .textSelection(.enabled)
-                        } header: {
-                            HStack {
-                                Text(review.attributes.title ?? DefaultValues.notSet)
-                                Spacer()
-                                RatingView(rating: .constant(review.attributes.rating))
-                            }
-                        } footer: {
-                            Text(review.attributes.reviewerNickname ?? DefaultValues.unknown)
-                        }
-                    }
+                    ForEach(app.customerReviews, content: ReviewTranslationView.init)
                 }
             }
             .formStyle(.grouped)
