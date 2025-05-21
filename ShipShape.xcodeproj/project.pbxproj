@@ -10,14 +10,30 @@
 		51616E862DD8F5FA007B8250 /* JWTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51616E852DD8F5FA007B8250 /* JWTKit */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		517283C02DDCD6D40064D974 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 51616E662DD8EDE8007B8250 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 51616E6D2DD8EDE8007B8250;
+			remoteInfo = ShipShape;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		51616E6E2DD8EDE8007B8250 /* ShipShape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShipShape.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		517283BC2DDCD6D40064D974 /* ShipShapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShipShapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		51616E702DD8EDE8007B8250 /* ShipShape */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ShipShape;
+			sourceTree = "<group>";
+		};
+		517283BD2DDCD6D40064D974 /* ShipShapeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ShipShapeTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -31,6 +47,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		517283B92DDCD6D40064D974 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -38,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				51616E702DD8EDE8007B8250 /* ShipShape */,
+				517283BD2DDCD6D40064D974 /* ShipShapeTests */,
 				51616E6F2DD8EDE8007B8250 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				51616E6E2DD8EDE8007B8250 /* ShipShape.app */,
+				517283BC2DDCD6D40064D974 /* ShipShapeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +85,7 @@
 				51616E6A2DD8EDE8007B8250 /* Sources */,
 				51616E6B2DD8EDE8007B8250 /* Frameworks */,
 				51616E6C2DD8EDE8007B8250 /* Resources */,
+				519DF1372DDDC2F800A2F9F1 /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -76,6 +102,30 @@
 			productReference = 51616E6E2DD8EDE8007B8250 /* ShipShape.app */;
 			productType = "com.apple.product-type.application";
 		};
+		517283BB2DDCD6D40064D974 /* ShipShapeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 517283C22DDCD6D40064D974 /* Build configuration list for PBXNativeTarget "ShipShapeTests" */;
+			buildPhases = (
+				517283B82DDCD6D40064D974 /* Sources */,
+				517283B92DDCD6D40064D974 /* Frameworks */,
+				517283BA2DDCD6D40064D974 /* Resources */,
+				519DF1382DDDC78100A2F9F1 /* Run SwiftLint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				517283C12DDCD6D40064D974 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				517283BD2DDCD6D40064D974 /* ShipShapeTests */,
+			);
+			name = ShipShapeTests;
+			packageProductDependencies = (
+			);
+			productName = ShipShapeTests;
+			productReference = 517283BC2DDCD6D40064D974 /* ShipShapeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -88,6 +138,10 @@
 				TargetAttributes = {
 					51616E6D2DD8EDE8007B8250 = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					517283BB2DDCD6D40064D974 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 51616E6D2DD8EDE8007B8250;
 					};
 				};
 			};
@@ -109,6 +163,7 @@
 			projectRoot = "";
 			targets = (
 				51616E6D2DD8EDE8007B8250 /* ShipShape */,
+				517283BB2DDCD6D40064D974 /* ShipShapeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -121,7 +176,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		517283BA2DDCD6D40064D974 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		519DF1372DDDC2F800A2F9F1 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: SwiftLint was not found. See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+		519DF1382DDDC78100A2F9F1 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: SwiftLint was not found. See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		51616E6A2DD8EDE8007B8250 /* Sources */ = {
@@ -131,7 +234,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		517283B82DDCD6D40064D974 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		517283C12DDCD6D40064D974 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 51616E6D2DD8EDE8007B8250 /* ShipShape */;
+			targetProxy = 517283C02DDCD6D40064D974 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		51616E782DD8EDEA007B8250 /* Debug */ = {
@@ -266,6 +384,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -304,6 +423,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -330,6 +450,61 @@
 			};
 			name = Release;
 		};
+		517283C32DDCD6D40064D974 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.ShipShapeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShipShape.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShipShape";
+			};
+			name = Debug;
+		};
+		517283C42DDCD6D40064D974 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.ShipShapeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ShipShape.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ShipShape";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -347,6 +522,15 @@
 			buildConfigurations = (
 				51616E7B2DD8EDEA007B8250 /* Debug */,
 				51616E7C2DD8EDEA007B8250 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		517283C22DDCD6D40064D974 /* Build configuration list for PBXNativeTarget "ShipShapeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				517283C32DDCD6D40064D974 /* Debug */,
+				517283C42DDCD6D40064D974 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
