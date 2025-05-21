@@ -9,21 +9,19 @@ import Foundation
 import OSLog
 
 @propertyWrapper
-public struct Logger {
-    public static var defaultSubsystem: String {
-        return Bundle.main.bundleIdentifier ?? "ShipShape"
+struct Logger {
+    static var defaultSubsystem: String {
+        Bundle.main.bundleIdentifier ?? "ShipShape"
     }
 
     let logger: os.Logger
 
-    public var wrappedValue: os.Logger {
-        get {
-            return logger
-        }
+    var wrappedValue: os.Logger {
+        logger
     }
 
-    public init(subsystem: String = Self.defaultSubsystem, category: String = #file) {
-        self.logger = os.Logger(
+    init(subsystem: String = defaultSubsystem, category: String = #file) {
+        logger = os.Logger(
             subsystem: subsystem,
             category: category
         )
