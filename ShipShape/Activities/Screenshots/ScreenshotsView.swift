@@ -10,6 +10,7 @@ import SwiftUI
 struct ScreenshotsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -44,7 +45,7 @@ struct ScreenshotsView: View {
 
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }

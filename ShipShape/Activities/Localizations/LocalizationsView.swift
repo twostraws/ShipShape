@@ -13,6 +13,7 @@ struct LocalizationsView: View {
     @State private var loadState = LoadState.loading
     @State private var availableLocales: [String] = []
     @State private var selectedLocale: String = ""
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -69,7 +70,7 @@ struct LocalizationsView: View {
 
             loadState = .loaded
         } catch {
-            print(error.localizedDescription)
+            logger.error("\(error.localizedDescription)")
             loadState = .failed
         }
     }

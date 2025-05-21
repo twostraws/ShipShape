@@ -11,6 +11,7 @@ import SwiftUI
 struct BuildsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -57,7 +58,7 @@ struct BuildsView: View {
                 try await client.fetchBuilds(of: app)
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }

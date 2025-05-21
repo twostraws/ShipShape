@@ -17,6 +17,9 @@ class UserSettings {
     private(set) var apiKey: String?
     private(set) var apiKeyID: String?
     private(set) var apiKeyIssuer: String?
+    
+    @ObservationIgnored
+    @Logger private var logger
 
     /// A Set containing bundle IDs for apps that should be hidden.
     var hiddenApps: Set<String>
@@ -80,11 +83,11 @@ class UserSettings {
         let status = SecItemAdd(query as CFDictionary, nil)
 
         if status == errSecSuccess {
-            print("Keychain item added successfully.")
+            logger.info("Keychain item added successfully.")
         } else if status == errSecDuplicateItem {
-            print("Item already exists.")
+            logger.error("Item already exists.")
         } else {
-            print("Keychain error: \(status)")
+            logger.error("Keychain error: \(status)")
         }
     }
 
