@@ -8,15 +8,23 @@
 import Foundation
 
 /// One ASC app can have multiple versions, e.g. v1 for iOS, v2 for macOS.
-struct ASCAppVersion: Decodable, Hashable, Identifiable {
+struct ASCAppVersion: Comparable, Decodable, Hashable, Identifiable {
     var id: String
     var attributes: Attributes
+
+    static func < (lhs: ASCAppVersion, rhs: ASCAppVersion) -> Bool {
+        let left = lhs.attributes.versionString ?? ""
+        let right = rhs.attributes.versionString ?? ""
+        return left.isVersioned(before: right)
+    }
 
     struct Attributes: Decodable, Hashable {
         var platform: String
         var versionString: String?
         var appStoreState: String?
+        var appVersionState: String?
         var copyright: String?
+        var releaseType: String
         var createdDate: Date
     }
 
@@ -29,6 +37,7 @@ struct ASCAppVersion: Decodable, Hashable, Identifiable {
                 versionString: "1.0.0",
                 appStoreState: "READY_FOR_SALE",
                 copyright: "@ExampleCopyright",
+                releaseType: "MANUAL",
                 createdDate: Date.now
             )
         )
@@ -42,6 +51,7 @@ struct ASCAppVersion: Decodable, Hashable, Identifiable {
                 versionString: "1.0.0",
                 appStoreState: "PREPARE_FOR_SUBMISSION",
                 copyright: "@ExampleCopyright",
+                releaseType: "MANUAL",
                 createdDate: Date.now
             )
         )

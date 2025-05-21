@@ -30,7 +30,7 @@ extension ASCClient {
 
         let url = "/v1/apps/\(app.id)/appStoreVersions?include=appStoreVersionLocalizations,appStoreReviewDetail"
         let response = try await fetch(url, as: ASCAppVersionResponse.self)
-        apps[index].versions = response.data
+        apps[index].versions = response.data.sorted().reversed()
         apps[index].localizations = response.appStoreVersionLocalizations
         apps[index].reviewDetails = response.appStoreReviewDetails
     }

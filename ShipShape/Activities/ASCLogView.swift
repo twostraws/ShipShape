@@ -11,11 +11,15 @@ struct ASCLogView: View {
     @Environment(ASCClient.self) var client
 
     var body: some View {
-        List(client.logEntries) { entry in
-            Button(entry.url) {
-                print(entry.response)
+        List {
+            ForEach(client.logEntries) { entry in
+                Section("Click to print to Xcode log") {
+                    Button(entry.url) {
+                        print(entry.response)
+                    }
+                    .buttonStyle(.plain)
+                }
             }
-            .buttonStyle(.plain)
         }
     }
 }
