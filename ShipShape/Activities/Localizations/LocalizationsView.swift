@@ -70,7 +70,7 @@ struct LocalizationsView: View {
 
             loadState = .loaded
         } catch {
-            print(error.localizedDescription)
+            logger.error("\(error.localizedDescription)")
             loadState = .failed
         }
     }

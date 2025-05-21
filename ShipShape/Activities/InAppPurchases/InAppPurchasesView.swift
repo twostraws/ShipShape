@@ -11,6 +11,7 @@ import SwiftUI
 struct InAppPurchasesView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -46,7 +47,7 @@ struct InAppPurchasesView: View {
                 try await client.fetchInAppPurchases(of: app)
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }
