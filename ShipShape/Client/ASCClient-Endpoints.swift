@@ -10,9 +10,9 @@ import Foundation
 extension ASCClient {
     /// Reads all the apps for a user.
     func fetchApps() async throws {
-        let url = "/apps"
+        let url = "/apps?limit=200"
         let response = try await fetch(url, as: ASCAppResponse.self)
-        apps = response.data
+        apps = response.data.sorted()
     }
 
     /// Reads all the customer reviews for an app.
@@ -90,5 +90,13 @@ extension ASCClient {
         }
 
         apps[appIndex].subscriptionGroups = subscriptionGroups
+    }
+
+    func fetchPerformanceMetricsData(of app: ASCApp) async throws {
+        guard let appIndex = apps.firstIndex(of: app) else { return }
+
+        let url = "/apps/\(app.id)/perfPowerMetrics"
+        let response = try await fetch(url, as: ASCPerformanceMetricsResponse.self)
+        apps[appIndex].performanceMetrics = response.productData
     }
 }
