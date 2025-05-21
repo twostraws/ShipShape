@@ -20,7 +20,7 @@ struct WelcomeView: View {
     @State private var key = ""
     @State private var keyID = ""
     @State private var keyIssuerID = ""
-    
+
     @Logger private var logger
 
     var isMissingUserData: Bool {

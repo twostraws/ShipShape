@@ -25,7 +25,7 @@ class ASCClient {
 
     /// The URLSession-compatible type to use for networking.
     var session: any URLSessionProtocol
-    
+
     @ObservationIgnored
     @Logger private var logger
 

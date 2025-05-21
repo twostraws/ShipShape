@@ -17,7 +17,7 @@ class UserSettings {
     private(set) var apiKey: String?
     private(set) var apiKeyID: String?
     private(set) var apiKeyIssuer: String?
-    
+
     @ObservationIgnored
     @Logger private var logger
 
