@@ -10,7 +10,7 @@ import Foundation
 extension ASCClient {
     /// Reads all the apps for a user.
     func fetchApps() async throws {
-        let url = "/apps?limit=200"
+        let url = "/v1/apps?limit=200"
         let response = try await fetch(url, as: ASCAppResponse.self)
         apps = response.data.sorted()
     }
@@ -19,7 +19,7 @@ extension ASCClient {
     func fetchReviews(of app: ASCApp) async throws {
         guard let index = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/customerReviews"
+        let url = "/v1/apps/\(app.id)/customerReviews"
         let response = try await fetch(url, as: ASCCustomerReviewResponse.self)
         apps[index].customerReviews = response.data
     }
@@ -28,7 +28,7 @@ extension ASCClient {
     func fetchVersions(of app: ASCApp) async throws {
         guard let index = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/appStoreVersions?include=appStoreVersionLocalizations,appStoreReviewDetail"
+        let url = "/v1/apps/\(app.id)/appStoreVersions?include=appStoreVersionLocalizations,appStoreReviewDetail"
         let response = try await fetch(url, as: ASCAppVersionResponse.self)
         apps[index].versions = response.data
         apps[index].localizations = response.appStoreVersionLocalizations
@@ -39,7 +39,7 @@ extension ASCClient {
     func fetchBuilds(of app: ASCApp) async throws {
         guard let index = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/builds"
+        let url = "/v1/apps/\(app.id)/builds"
         let response = try await fetch(url, as: ASCAppBuildResponse.self)
         apps[index].builds = response.data
     }
@@ -49,13 +49,13 @@ extension ASCClient {
         guard let appIndex = apps.firstIndex(of: app) else { return }
         guard let versionIndex = apps[appIndex].localizations.firstIndex(of: version) else { return }
 
-        let url = "/appStoreVersionLocalizations/\(version.id)/appScreenshotSets"
+        let url = "/v1/appStoreVersionLocalizations/\(version.id)/appScreenshotSets"
         let response = try await fetch(url, as: ASCAppScreenshotSetResponse.self)
 
         var screenshotSets = response.data
 
         for (index, screenshotSet) in screenshotSets.enumerated() {
-            let url = "/appScreenshotSets/\(screenshotSet.id)/appScreenshots"
+            let url = "/v1/appScreenshotSets/\(screenshotSet.id)/appScreenshots"
             let response = try await fetch(url, as: ASCAppScreenshotResponse.self)
             screenshotSets[index].screenshots.append(contentsOf: response.data)
         }
@@ -67,7 +67,7 @@ extension ASCClient {
     func fetchInAppPurchases(of app: ASCApp) async throws {
         guard let appIndex = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/inAppPurchasesV2"
+        let url = "/v1/apps/\(app.id)/inAppPurchasesV2"
         let response = try await fetch(url, as: ASCInAppPurchaseResponse.self)
 
         apps[appIndex].inAppPurchases = response.data
@@ -78,7 +78,7 @@ extension ASCClient {
         guard let appIndex = apps.firstIndex(of: app) else { return }
 
         let url = """
-        /apps/\(app.id)/subscriptionGroups?include=subscriptions,subscriptionGroupLocalizations\
+        /v1/apps/\(app.id)/subscriptionGroups?include=subscriptions,subscriptionGroupLocalizations\
         &fields[subscriptions]=name,productId,familySharable,state,subscriptionPeriod,reviewNote
         """
         let response = try await fetch(url, as: ASCSubscriptionGroupResponse.self)
@@ -92,11 +92,24 @@ extension ASCClient {
         apps[appIndex].subscriptionGroups = subscriptionGroups
     }
 
+    /// Reads power and performance and metrics for an app.
     func fetchPerformanceMetricsData(of app: ASCApp) async throws {
         guard let appIndex = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/perfPowerMetrics"
+        let url = "/v1/apps/\(app.id)/perfPowerMetrics"
         let response = try await fetch(url, as: ASCPerformanceMetricsResponse.self)
         apps[appIndex].performanceMetrics = response.productData
+    }
+
+    /// Reads all territory availability for an app.
+    func fetchAvailability(of app: ASCApp) async throws {
+        guard let appIndex = apps.firstIndex(of: app) else { return }
+
+        let url = "/v2/appAvailabilities/\(app.id)/territoryAvailabilities?include=territory&limit=200"
+
+        let response = try await fetch(url, as: ASCAppAvailabilityResponse.self)
+        apps[appIndex].availability = response.data.sorted()
+
+        print(response.data.map(\.territory).sorted().joined(separator: "\n"))
     }
 }

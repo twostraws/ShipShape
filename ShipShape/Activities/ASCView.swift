@@ -28,6 +28,7 @@ struct ASCView: View {
             if selectedApp != nil {
                 List(selection: $selectedSection) {
                     NavigationLink("App Review", value: AppSection.appReview)
+                    NavigationLink("Availability", value: AppSection.availability)
                     NavigationLink("Basic Information", value: AppSection.basicInformation)
                     NavigationLink("Builds", value: AppSection.builds)
                     NavigationLink("In-app Purchases", value: AppSection.inAppPurchases)
@@ -46,6 +47,7 @@ struct ASCView: View {
                 VStack {
                     switch selectedSection {
                     case .appReview: AppReviewView(app: selectedApp)
+                    case .availability: AppAvailabilityView(app: selectedApp)
                     case .basicInformation: BasicInformationView(app: selectedApp)
                     case .builds: BuildsView(app: selectedApp)
                     case .customerReviews: CustomerReviewsView(app: selectedApp)

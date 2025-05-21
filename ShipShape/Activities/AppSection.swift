@@ -10,6 +10,7 @@ import SwiftUI
 /// Determines which part of an app's data is currently being shown.
 enum AppSection: String {
     case appReview
+    case availability
     case basicInformation
     case builds
     case customerReviews

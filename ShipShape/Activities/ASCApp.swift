@@ -15,6 +15,7 @@ final class ASCApp: Comparable, Decodable, Hashable, Identifiable {
 
     var attributes: Attributes
 
+    var availability = [ASCAppAvailability]()
     var builds = [ASCAppBuild]()
     var customerReviews = [ASCCustomerReview]()
     var inAppPurchases = [ASCInAppPurchase]()

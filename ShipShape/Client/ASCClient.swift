@@ -38,7 +38,7 @@ class ASCClient {
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
     func fetch<T: Decodable>(_ urlString: String, as type: T.Type) async throws -> T {
-        guard let url = URL(string: "https://api.appstoreconnect.apple.com/v1\(urlString)") else {
+        guard let url = URL(string: "https://api.appstoreconnect.apple.com\(urlString)") else {
             fatalError("Malformed URL: \(urlString)")
         }
 
@@ -64,8 +64,8 @@ class ASCClient {
             fatalError("Failed to decode due to type mismatch - \(context.debugDescription)")
         } catch DecodingError.valueNotFound(let type, let context) {
             fatalError("Failed to decode due to missing \(type) value - \(context.debugDescription)")
-        } catch DecodingError.dataCorrupted(_) {
-            fatalError("Failed to decode: it appears to be invalid JSON.")
+        } catch DecodingError.dataCorrupted(let context) {
+            fatalError("Failed to decode: it appears to be invalid JSON: \(context)")
         } catch {
             fatalError("Failed to decode: \(error.localizedDescription)")
         }
