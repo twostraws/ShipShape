@@ -14,6 +14,7 @@ extension String {
         switch self {
         case "CONSUMABLE": "Consumable"
         case "NON_CONSUMABLE": "Non-consumable"
+        case "NON_RENEWING_SUBSCRIPTION": "Non-renewing Subscription"
         default: self
         }
     }
