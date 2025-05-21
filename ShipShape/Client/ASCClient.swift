@@ -8,6 +8,13 @@
 import Foundation
 import JWTKit
 
+struct ASCLogEntry: Identifiable {
+    var id = UUID()
+    var url: String
+    var response: String
+    var date = Date.now
+}
+
 /// Handles all communication with App Store Connect.
 @Observable @MainActor
 class ASCClient {
@@ -28,6 +35,8 @@ class ASCClient {
 
     @ObservationIgnored
     @Logger private var logger
+
+    var logEntries = [ASCLogEntry]()
 
     init(key: String, keyID: String, issuerID: String, session: any URLSessionProtocol = URLSession.shared) {
         self.key = key
@@ -51,6 +60,9 @@ class ASCClient {
         // Log the JSON we get back, for inspection purposes.
         if let stringResult = String(data: result, encoding: .utf8) {
             logger.debug("\(stringResult)")
+
+            let logEntry = ASCLogEntry(url: urlString, response: stringResult)
+            logEntries.insert(logEntry, at: 0)
         }
 
         let decoder = JSONDecoder()

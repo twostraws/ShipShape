@@ -68,6 +68,9 @@ struct ASCView: View {
 
         }
         .navigationTitle("ShipShape")
+        #if os(macOS)
+        .inspector(isPresented: .constant(true), content: ASCLogView.init)
+        #endif
         .environment(client)
         .task(load)
         .toolbar {

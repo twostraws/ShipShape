@@ -40,6 +40,7 @@ extension ASCClient {
         guard let index = apps.firstIndex(of: app) else { return }
 
         let url = "/v1/apps/\(app.id)/builds"
+
         let response = try await fetch(url, as: ASCAppBuildResponse.self)
         apps[index].builds = response.data
     }
