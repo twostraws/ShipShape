@@ -110,4 +110,14 @@ extension ASCClient {
         let response = try await fetch(url, as: ASCAppAvailabilityResponse.self)
         apps[appIndex].availability = response.data.sorted()
     }
+
+    /// Reads all promotion nominations for an app.
+    func fetchNominations(of app: ASCApp) async throws {
+        guard let appIndex = apps.firstIndex(of: app) else { return }
+
+        let url = "/v1/nominations?filter[state]=SUBMITTED&filter[relatedApps]=\(app.id)"
+
+        let response = try await fetch(url, as: ASCAppNominationResponse.self)
+        apps[appIndex].nominations = response.data
+    }
 }

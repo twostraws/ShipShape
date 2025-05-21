@@ -20,6 +20,7 @@ final class ASCApp: Comparable, Decodable, Hashable, Identifiable {
     var customerReviews = [ASCCustomerReview]()
     var inAppPurchases = [ASCInAppPurchase]()
     var localizations = [ASCVersionLocalization]()
+    var nominations = [ASCAppNomination]()
     var performanceMetrics = [ASCPerformanceMetrics]()
     var reviewDetails = [ASCReviewDetails]()
     var subscriptionGroups = [ASCSubscriptionGroup]()
