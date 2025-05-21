@@ -77,7 +77,10 @@ extension ASCClient {
     func fetchSubscriptions(of app: ASCApp) async throws {
         guard let appIndex = apps.firstIndex(of: app) else { return }
 
-        let url = "/apps/\(app.id)/subscriptionGroups?include=subscriptions,subscriptionGroupLocalizations&fields[subscriptions]=name,productId,familySharable,state,subscriptionPeriod,reviewNote"
+        let url = """
+        /apps/\(app.id)/subscriptionGroups?include=subscriptions,subscriptionGroupLocalizations\
+        &fields[subscriptions]=name,productId,familySharable,state,subscriptionPeriod,reviewNote
+        """
         let response = try await fetch(url, as: ASCSubscriptionGroupResponse.self)
         var subscriptionGroups = response.data
 

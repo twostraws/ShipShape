@@ -32,7 +32,10 @@ struct SubscriptionsView: View {
                             }
 
                             ForEach(subscriptionGroup.subscriptionGroupLocalizations) { localization in
-                                LabeledContent("\(localization.attributes.locale): \(localization.attributes.name)", value: localization.attributes.state.convertFromApprovalState)
+                                LabeledContent(
+                                    "\(localization.attributes.locale): \(localization.attributes.name)",
+                                    value: localization.attributes.state.convertFromApprovalState
+                                )
                             }
 
                         }

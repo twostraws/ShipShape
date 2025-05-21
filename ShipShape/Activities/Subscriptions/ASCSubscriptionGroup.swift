@@ -14,7 +14,6 @@ struct ASCSubscriptionGroup: Decodable, Hashable, Identifiable {
     var subscriptions = [ASCSubscription]()
     var subscriptionGroupLocalizations = [ASCSubscriptionGroupLocalization]()
 
-
     enum CodingKeys: CodingKey {
         case id, attributes
     }
