@@ -83,7 +83,7 @@ class ASCClient {
         }
     }
 
-    func post<T: Encodable>(_ urlString: String, attaching content: T) async throws {
+    func post<T: Encodable>(_ urlString: String, attaching content: T) async throws -> Bool {
         guard let url = URL(string: "https://api.appstoreconnect.apple.com\(urlString)") else {
             fatalError("Malformed URL: \(urlString)")
         }
@@ -94,13 +94,18 @@ class ASCClient {
         request.httpMethod = "POST"
         request.httpBody = try JSONEncoder().encode(content)
         request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let data = try JSONEncoder().encode(content)
+        print(String(decoding: data, as: UTF8.self))
+
         let (_, response) = try await session.data(for: request, delegate: nil)
 
         if let response = response as? HTTPURLResponse {
             switch response.statusCode {
             case 201:
                 // all good
-                break
+                return true
             case 400:
                 logger.error("Bad request: \(url)")
             case 401:
@@ -115,6 +120,8 @@ class ASCClient {
                 logger.error("Unknown post response: \(url)")
             }
         }
+
+        return false
     }
 
     func delete(_ urlString: String) async throws {

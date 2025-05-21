@@ -19,11 +19,23 @@ extension ASCClient {
     func getReviews(of app: ASCApp) async throws {
         guard let index = apps.firstIndex(of: app) else { return }
 
-        let url = "/v1/apps/\(app.id)/customerReviews"
+        let url = """
+        /v1/apps/\(app.id)/customerReviews\
+        ?fields[customerReviews]=rating,title,body,reviewerNickname,createdDate,territory,response\
+        &include=response
+        """
+
         let response = try await get(url, as: ASCCustomerReviewResponse.self)
 
+        // We need to match up reply relationships with their actual replies.
+        let linkedResponses = response.data.map { review in
+            var reviewCopy = review
+            reviewCopy.response = response.responses.first(where: { $0.id == review.relationships.response.data?.id })
+            return reviewCopy
+        }
+
         // Place newest reviews first.
-        apps[index].customerReviews = response.data.sorted().reversed()
+        apps[index].customerReviews = linkedResponses.sorted().reversed()
     }
 
     /// Reads all the public-facing App Store versions for an app.
