@@ -30,7 +30,7 @@ struct ASCAppVersion: Comparable, Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCAppVersion {
-        return ASCAppVersion(
+        ASCAppVersion(
             id: "123",
             attributes: Attributes(
                 platform: "MAC_OS",
@@ -44,7 +44,7 @@ struct ASCAppVersion: Comparable, Decodable, Hashable, Identifiable {
     }
 
     static var example2: ASCAppVersion {
-        return ASCAppVersion(
+        ASCAppVersion(
             id: "123",
             attributes: Attributes(
                 platform: "IOS",

@@ -25,7 +25,7 @@ struct ASCVersionLocalization: Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCVersionLocalization {
-        return ASCVersionLocalization(
+        ASCVersionLocalization(
             id: "123",
             attributes: Attributes(
                 description: "abc123",

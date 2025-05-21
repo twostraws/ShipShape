@@ -75,7 +75,7 @@ final class ASCApp: Comparable, Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCApp {
-        return ASCApp(
+        ASCApp(
             id: "123",
             attributes: Attributes(
                 name: "Epic App Idea",

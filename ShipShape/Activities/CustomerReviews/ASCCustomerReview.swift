@@ -27,7 +27,7 @@ struct ASCCustomerReview: Comparable, Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCCustomerReview {
-        return ASCCustomerReview(
+        ASCCustomerReview(
             id: "1111",
             attributes: Attributes(
                 rating: 5,
@@ -41,7 +41,7 @@ struct ASCCustomerReview: Comparable, Decodable, Hashable, Identifiable {
     }
 
     static var example2: ASCCustomerReview {
-        return ASCCustomerReview(
+        ASCCustomerReview(
             id: "2222",
             attributes: Attributes(
                 rating: 5,
