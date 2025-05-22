@@ -13,6 +13,7 @@ struct BasicInformationView: View {
 
     var body: some View {
         Form {
+            LabeledContent("ID", value: app.id)
             LabeledContent("Name", value: app.attributes.name)
             LabeledContent("Bundle ID", value: app.attributes.bundleId)
             LabeledContent("SKU", value: app.attributes.sku)

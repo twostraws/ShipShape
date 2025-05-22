@@ -11,35 +11,40 @@ import SwiftUI
 struct BuildsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
-                if let build = app.builds.first {
-                    AsyncImage(url: build.attributes.iconAssetToken.resolvedURL) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .frame(maxWidth: 100, maxHeight: 100)
+                if app.builds.isEmpty {
+                    Text("No builds.")
+                } else {
+                    ForEach(app.builds) { build in
+                        Section("Version: \(build.attributes.version)") {
+                            AsyncImage(url: build.attributes.iconAssetToken.resolvedURL) { phase in
+                                switch phase {
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .frame(maxWidth: 100, maxHeight: 100)
 
-                        case .failure:
-                            Image(systemName: "questionmark.diamond")
+                                case .failure:
+                                    Image(systemName: "questionmark.diamond")
 
-                        default:
-                            ProgressView()
-                                .controlSize(.large)
+                                default:
+                                    ProgressView()
+                                        .controlSize(.large)
+                                }
+                            }
+
+                            LabeledContent("Upload Date", value: build.attributes.uploadedDate.formatted())
+                            LabeledContent("Expiration Date", value: build.attributes.expirationDate.formatted())
+                            LabeledContent("Minimum OS Version", value: build.attributes.minOsVersion)
+                            LabeledContent("Internal Build ID", value: build.id)
                         }
                     }
-
-                    LabeledContent("Version", value: build.attributes.version)
-                    LabeledContent("Upload Date", value: build.attributes.uploadedDate.formatted())
-                    LabeledContent("Expiration Date", value: build.attributes.expirationDate.formatted())
-                    LabeledContent("Minimum OS Version", value: build.attributes.minOsVersion)
-                } else {
-                    Text("No builds.")
                 }
             }
             .formStyle(.grouped)
@@ -54,10 +59,10 @@ struct BuildsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchBuilds(of: app)
+                try await client.getBuilds(of: app)
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }

@@ -20,7 +20,7 @@ struct LoadingView<Content: View>: View {
             content()
         case .failed:
             ContentUnavailableView {
-                Text("Load failed.")
+                Text("Load failed")
             } description: {
                 Text("Please try again.")
             } actions: {

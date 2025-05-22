@@ -9,8 +9,11 @@ import Foundation
 
 /// Stores extra data sent back from the ASC API.
 enum ASCIncludedData: Decodable {
-    case versionLocalization(ASCVersionLocalization)
     case reviewDetails(ASCReviewDetails)
+    case subscription(ASCSubscription)
+    case subscriptionGroupLocalization(ASCSubscriptionGroupLocalization)
+    case versionLocalization(ASCVersionLocalization)
+    case customerReviewResponses(ASCCustomReviewResponse)
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -25,6 +28,12 @@ enum ASCIncludedData: Decodable {
             try self = .versionLocalization(ASCVersionLocalization(from: decoder))
         case "appStoreReviewDetails":
             try self = .reviewDetails(ASCReviewDetails(from: decoder))
+        case "customerReviewResponses":
+            try self = .customerReviewResponses(ASCCustomReviewResponse(from: decoder))
+        case "subscriptions":
+            try self = .subscription(ASCSubscription(from: decoder))
+        case "subscriptionGroupLocalizations":
+            try self = .subscriptionGroupLocalization(ASCSubscriptionGroupLocalization(from: decoder))
         default:
             fatalError("Unsupported included type: \(type)")
         }

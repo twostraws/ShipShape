@@ -18,7 +18,19 @@ class UserSettings {
     private(set) var apiKeyID: String?
     private(set) var apiKeyIssuer: String?
 
+    @ObservationIgnored
+    @Logger private var logger
+
+    /// A Set containing bundle IDs for apps that should be hidden.
+    var hiddenApps: Set<String>
+
     init() {
+        if let savedHiddenApps = UserDefaults.standard.array(forKey: Constants.hiddenAppsKey) as? [String] {
+            hiddenApps = Set(savedHiddenApps)
+        } else {
+            hiddenApps = []
+        }
+
         apiKey = readFromKeychain(apiKeyName)
         apiKeyID = readFromKeychain(apiKeyIDName)
         apiKeyIssuer = readFromKeychain(apiKeyIssuerName)
@@ -71,11 +83,11 @@ class UserSettings {
         let status = SecItemAdd(query as CFDictionary, nil)
 
         if status == errSecSuccess {
-            print("Keychain item added successfully.")
+            logger.info("Keychain item added successfully.")
         } else if status == errSecDuplicateItem {
-            print("Item already exists.")
+            logger.error("Item already exists.")
         } else {
-            print("Keychain error: \(status)")
+            logger.error("Keychain error: \(status)")
         }
     }
 
@@ -109,5 +121,21 @@ class UserSettings {
         ]
 
         SecItemDelete(query as CFDictionary)
+    }
+
+    /// Tracks if the user has requested a particular app to be hidden.
+    func isHidden(app: ASCApp) -> Bool {
+        hiddenApps.contains(app.attributes.bundleId)
+    }
+
+    /// Adjusts the visibility for a particular app, and writes the new list to `UserDefaults`.
+    func toggleVisibility(for app: ASCApp) {
+        if hiddenApps.contains(app.attributes.bundleId) {
+            hiddenApps.remove(app.attributes.bundleId)
+        } else {
+            hiddenApps.insert(app.attributes.bundleId)
+        }
+
+        UserDefaults.standard.set(Array(hiddenApps), forKey: Constants.hiddenAppsKey)
     }
 }

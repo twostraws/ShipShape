@@ -15,6 +15,7 @@ extension String {
         case "IOS": "iOS"
         case "MAC_OS": "macOS"
         case "VISION_OS": "visionOS"
+        case "TV_OS": "tvOS"
         default: self
         }
     }

@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import Translation
 
 /// Displays all reviews for a single app.
 struct CustomerReviewsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @Logger private var logger
 
     var app: ASCApp
 
@@ -20,20 +22,7 @@ struct CustomerReviewsView: View {
                 if app.customerReviews.isEmpty {
                     Text("No reviews")
                 } else {
-                    ForEach(app.customerReviews) { review in
-                        Section {
-                            Text(review.attributes.body ?? DefaultValues.unknown)
-                                .textSelection(.enabled)
-                        } header: {
-                            HStack {
-                                Text(review.attributes.title ?? DefaultValues.notSet)
-                                Spacer()
-                                RatingView(rating: .constant(review.attributes.rating))
-                            }
-                        } footer: {
-                            Text(review.attributes.reviewerNickname ?? DefaultValues.unknown)
-                        }
-                    }
+                    ForEach(app.customerReviews, content: ReviewTranslationView.init)
                 }
             }
             .formStyle(.grouped)
@@ -48,10 +37,10 @@ struct CustomerReviewsView: View {
         Task {
             do {
                 loadState = .loading
-                try await client.fetchReviews(of: app)
+                try await client.getReviews(of: app)
                 loadState = .loaded
             } catch {
-                print(error.localizedDescription)
+                logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
         }

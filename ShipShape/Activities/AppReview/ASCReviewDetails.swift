@@ -22,7 +22,7 @@ struct ASCReviewDetails: Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCReviewDetails {
-        return ASCReviewDetails(
+        ASCReviewDetails(
             id: "123",
             attributes: Attributes(
                 contactFirstName: "First Name",

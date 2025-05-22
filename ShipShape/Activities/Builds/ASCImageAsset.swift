@@ -23,7 +23,7 @@ struct ASCImageAsset: Decodable, Hashable {
 
     // MARK: Example
     static var example: ASCImageAsset {
-        return ASCImageAsset(
+        ASCImageAsset(
             templateUrl: "",
             width: 200,
             height: 200

@@ -9,20 +9,29 @@ import Foundation
 
 /// One app from App Store Connect.
 @Observable
-final class ASCApp: Decodable, Hashable, Identifiable {
+final class ASCApp: Comparable, Decodable, Hashable, Identifiable {
     /// The app's unique identifier.
     var id: String
 
     var attributes: Attributes
 
-    var customerReviews = [ASCCustomerReview]()
-    var versions = [ASCAppVersion]()
-    var localizations = [ASCVersionLocalization]()
-    var reviewDetails = [ASCReviewDetails]()
+    var availability = [ASCAppAvailability]()
     var builds = [ASCAppBuild]()
+    var customerReviews = [ASCCustomerReview]()
+    var inAppPurchases = [ASCInAppPurchase]()
+    var localizations = [ASCVersionLocalization]()
+    var nominations = [ASCAppNomination]()
+    var performanceMetrics = [ASCPerformanceMetrics]()
+    var reviewDetails = [ASCReviewDetails]()
+    var subscriptionGroups = [ASCSubscriptionGroup]()
+    var versions = [ASCAppVersion]()
 
     static func == (lhs: ASCApp, rhs: ASCApp) -> Bool {
         lhs.id == rhs.id
+    }
+
+    static func < (lhs: ASCApp, rhs: ASCApp) -> Bool {
+        lhs.attributes.name < rhs.attributes.name
     }
 
     func hash(into hasher: inout Hasher) {
@@ -61,16 +70,18 @@ final class ASCApp: Decodable, Hashable, Identifiable {
         var name: String
         var bundleId: String
         var sku: String
+        var primaryLocale: String
     }
 
     // MARK: Example
     static var example: ASCApp {
-        return ASCApp(
+        ASCApp(
             id: "123",
             attributes: Attributes(
                 name: "Epic App Idea",
                 bundleId: "amazing.app.id",
-                sku: "123"
+                sku: "123",
+                primaryLocale: "en-US"
             ),
             customerReviews: [ASCCustomerReview.example, ASCCustomerReview.example2],
             versions: [ASCAppVersion.example, ASCAppVersion.example2],

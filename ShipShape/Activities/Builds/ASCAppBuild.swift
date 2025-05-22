@@ -22,7 +22,7 @@ struct ASCAppBuild: Decodable, Hashable, Identifiable {
 
     // MARK: Example
     static var example: ASCAppBuild {
-        return ASCAppBuild(
+        ASCAppBuild(
             id: "123",
             attributes: Attributes(
                 version: "1.0.0",
