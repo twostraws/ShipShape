@@ -15,6 +15,7 @@ extension Array where Element == String {
             case "CANNOT_SELL": "Cannot Sell 🔴"
             case "MISSING_GRN": "Missing Game Registration Number ⚠️"
             case "PROCESSING_TO_AVAILABLE": "Processing to Available"
+            case "AVAILABLE_FOR_SALE_UNRELEASED_APP": "Available for sale, unreleased app"
             default: string
             }
         }.joined(separator: "\n")
