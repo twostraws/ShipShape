@@ -14,17 +14,25 @@ struct AppAvailabilityView: View {
 
     var app: ASCApp
 
+    var availableCountryCount: Int {
+        app.availability.count { availability in
+            availability.attributes.contentStatuses.contains("AVAILABLE")
+        }
+    }
+
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
                 if app.availability.isEmpty {
                     Text("No availability data.")
                 } else {
-                    ForEach(app.availability) { availability in
-                        LabeledContent(
-                            availability.territory.convertFromTerritory,
-                            value: availability.attributes.contentStatuses.convertFromContentStatus
-                        )
+                    Section("Available in ^[\(availableCountryCount) country](inflect: true)") {
+                        ForEach(app.availability) { availability in
+                            LabeledContent(
+                                availability.territory.convertFromTerritory,
+                                value: availability.attributes.contentStatuses.convertFromContentStatus
+                            )
+                        }
                     }
                 }
             }
