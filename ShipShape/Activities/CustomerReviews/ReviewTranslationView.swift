@@ -86,6 +86,7 @@ struct ReviewTranslationView: View {
             }
             .buttonStyle(.plain)
             .labelStyle(.iconOnly)
+            .padding(.horizontal, 10)
         }
     }
 
