@@ -19,7 +19,7 @@ struct ASCAppAvailability: Comparable, Decodable, Hashable, Identifiable {
 
     struct Attributes: Decodable, Hashable {
         var available: Bool
-        var releaseDate: String
+        var releaseDate: String?
         var preOrderEnabled: Bool
         var preOrderPublishDate: Date?
         var contentStatuses: [String]
