@@ -50,4 +50,5 @@ struct AppReviewView: View {
 
 #Preview {
     AppReviewView(app: ASCApp.example)
+        .environment(ASCClient.example)
 }
