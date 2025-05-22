@@ -10,6 +10,8 @@ import SwiftUI
 struct ScreenshotsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
+    @State private var availableLocales: [String] = []
+    @State private var selectedLocale: String = ""
     @Logger private var logger
 
     var app: ASCApp
@@ -17,7 +19,16 @@ struct ScreenshotsView: View {
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
-                if let localization = app.localizations.first {
+                Picker("Locale", selection: $selectedLocale) {
+                    ForEach(availableLocales, id: \.self) { locale in
+                        Text(Locale.current.localizedString(forIdentifier: locale) ?? locale).tag(locale)
+                    }
+                }
+                .pickerStyle(.menu)
+
+                if let localization = app.localizations.first(where: { locale in
+                    locale.attributes.locale == selectedLocale
+                }) {
                     ForEach(localization.screenshotSets, content: ScreenshotSetView.init)
                 } else {
                     Text("No screenshots.")
@@ -26,6 +37,11 @@ struct ScreenshotsView: View {
             .formStyle(.grouped)
         }
         .task(load)
+        .onChange(of: selectedLocale) {
+            Task {
+                await loadScreenshotSets()
+            }
+        }
         .toolbar {
             ReloadButton(action: load)
         }
@@ -36,18 +52,39 @@ struct ScreenshotsView: View {
             do {
                 loadState = .loading
 
-                if app.localizations.isEmpty {
-                    try await client.getVersions(of: app)
+                try await client.getVersions(of: app)
+
+                let locales = Set(app.localizations.compactMap { $0.attributes.locale })
+                availableLocales = Array(locales).sorted()
+
+                DispatchQueue.main.async {
+                    if selectedLocale.isEmpty {
+                        selectedLocale = app.attributes.primaryLocale
+                    }
                 }
 
-                guard let localization = app.localizations.first else { return }
-                try await client.getScreenshotSets(of: localization, for: app)
+                await loadScreenshotSets()
 
                 loadState = .loaded
             } catch {
                 logger.error("\(error.localizedDescription)")
                 loadState = .failed
             }
+        }
+    }
+
+    func loadScreenshotSets() async {
+        guard
+            let localization = app.localizations.first(where: { locale in
+                locale.attributes.locale == selectedLocale
+            })
+        else { return }
+
+        do {
+            try await client.getScreenshotSets(of: localization, for: app)
+        } catch {
+            logger.error("\(error.localizedDescription)")
+            loadState = .failed
         }
     }
 }

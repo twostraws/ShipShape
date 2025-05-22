@@ -53,7 +53,6 @@ struct LocalizationsView: View {
         }
     }
 
-    @MainActor
     func load() async {
         do {
             loadState = .loading
