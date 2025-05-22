@@ -21,7 +21,9 @@ struct AppReviewView: View {
                 if let reviewDetails = app.reviewDetails.first {
                     LabeledContent("First Name", value: reviewDetails.attributes.contactFirstName ?? DefaultValues.unknown)
                     LabeledContent("Last Name", value: reviewDetails.attributes.contactLastName ?? DefaultValues.unknown)
-                    LabeledContent("Notes", value: reviewDetails.attributes.notes ?? DefaultValues.notSet)
+                    Section("Notes") {
+                        Text(reviewDetails.attributes.notes ?? DefaultValues.notSet)
+                    }
                 } else {
                     Text("No app review details.")
                 }

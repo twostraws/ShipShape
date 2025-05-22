@@ -172,7 +172,7 @@ class ASCClient {
 
         return try await keyCollection.sign(payload, kid: keyID)
     }
-    
+
     // MARK: Example
     static var example: ASCClient {
         ASCClient(
