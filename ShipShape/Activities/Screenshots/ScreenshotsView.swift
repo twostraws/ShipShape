@@ -19,12 +19,7 @@ struct ScreenshotsView: View {
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
-                Picker("Locale", selection: $selectedLocale) {
-                    ForEach(availableLocales, id: \.self) { locale in
-                        Text(Locale.current.localizedString(forIdentifier: locale) ?? locale).tag(locale)
-                    }
-                }
-                .pickerStyle(.menu)
+                LocalePickerView(selectedLocale: $selectedLocale, availableLocales: availableLocales)
 
                 if let localization = app.localizations.first(where: { locale in
                     locale.attributes.locale == selectedLocale
