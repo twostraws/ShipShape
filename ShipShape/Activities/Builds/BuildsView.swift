@@ -15,13 +15,17 @@ struct BuildsView: View {
 
     var app: ASCApp
 
+    private var sortedBuilds: [ASCAppBuild] {
+        app.builds.sorted { $0.attributes.version > $1.attributes.version }
+    }
+
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
                 if app.builds.isEmpty {
                     Text("No builds.")
                 } else {
-                    ForEach(app.builds) { build in
+                    ForEach(sortedBuilds) { build in
                         Section("Version: \(build.attributes.version)") {
                             AsyncImage(url: build.attributes.iconAssetToken.resolvedURL) { phase in
                                 switch phase {
