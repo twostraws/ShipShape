@@ -15,30 +15,41 @@ struct BuildsView: View {
 
     var app: ASCApp
 
+    private var sortedBuilds: [ASCAppBuild] {
+        app.builds.sorted { $0.attributes.version > $1.attributes.version }
+    }
+
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
             Form {
                 if app.builds.isEmpty {
                     Text("No builds.")
                 } else {
-                    ForEach(app.builds) { build in
+                    ForEach(sortedBuilds) { build in
                         Section("Version: \(build.attributes.version)") {
-                            AsyncImage(url: build.attributes.iconAssetToken.resolvedURL) { phase in
-                                switch phase {
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .frame(maxWidth: 100, maxHeight: 100)
+                            if let imageURL = build.attributes.iconAssetToken?.resolvedURL {
+                                HStack {
+                                    Spacer(minLength: .zero)
+                                    AsyncImage(url: imageURL) { phase in
+                                        switch phase {
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(maxWidth: 100, maxHeight: 100)
 
-                                case .failure:
-                                    Image(systemName: "questionmark.diamond")
+                                        case .failure:
+                                            Image(systemName: "questionmark.diamond")
 
-                                default:
-                                    ProgressView()
-                                        .controlSize(.large)
+                                        default:
+                                            ProgressView()
+                                                .controlSize(.large)
+                                        }
+                                    }
+                                    Spacer(minLength: .zero)
                                 }
                             }
 
+                            LabeledContent("Processing State", value: build.attributes.processingState.convertFromProcessingState)
                             LabeledContent("Upload Date", value: build.attributes.uploadedDate.formatted())
                             LabeledContent("Expiration Date", value: build.attributes.expirationDate.formatted())
                             LabeledContent("Minimum OS Version", value: build.attributes.minOsVersion)
