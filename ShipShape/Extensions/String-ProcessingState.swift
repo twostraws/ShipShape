@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    /// Replaces Apple's App Store state hard-coded strings, e.g. `PROCESSING` becomes "Processing".
+    /// Replaces Apple's strings representing a build's processing state, e.g. `PROCESSING` becomes "Processing".
     var convertFromProcessingState: String {
         switch self {
         case "PROCESSING": "Processing ⏳"
