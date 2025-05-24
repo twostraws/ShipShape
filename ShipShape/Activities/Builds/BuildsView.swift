@@ -43,6 +43,7 @@ struct BuildsView: View {
                                 }
                             }
 
+                            LabeledContent("Processing State", value: build.attributes.processingState.convertFromProcessingState)
                             LabeledContent("Upload Date", value: build.attributes.uploadedDate.formatted())
                             LabeledContent("Expiration Date", value: build.attributes.expirationDate.formatted())
                             LabeledContent("Minimum OS Version", value: build.attributes.minOsVersion)
