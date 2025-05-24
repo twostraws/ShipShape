@@ -27,19 +27,25 @@ struct BuildsView: View {
                 } else {
                     ForEach(sortedBuilds) { build in
                         Section("Version: \(build.attributes.version)") {
-                            AsyncImage(url: build.attributes.iconAssetToken.resolvedURL) { phase in
-                                switch phase {
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .frame(maxWidth: 100, maxHeight: 100)
+                            if let imageURL = build.attributes.iconAssetToken?.resolvedURL {
+                                HStack {
+                                    Spacer(minLength: .zero)
+                                    AsyncImage(url: imageURL) { phase in
+                                        switch phase {
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(maxWidth: 100, maxHeight: 100)
 
-                                case .failure:
-                                    Image(systemName: "questionmark.diamond")
+                                        case .failure:
+                                            Image(systemName: "questionmark.diamond")
 
-                                default:
-                                    ProgressView()
-                                        .controlSize(.large)
+                                        default:
+                                            ProgressView()
+                                                .controlSize(.large)
+                                        }
+                                    }
+                                    Spacer(minLength: .zero)
                                 }
                             }
 
