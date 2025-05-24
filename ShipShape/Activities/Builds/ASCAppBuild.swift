@@ -17,7 +17,7 @@ struct ASCAppBuild: Decodable, Hashable, Identifiable {
         var expirationDate: Date
         var expired: Bool
         var minOsVersion: String
-        var iconAssetToken: ASCImageAsset
+        var iconAssetToken: ASCImageAsset?
     }
 
     // MARK: Example
