@@ -1,0 +1,16 @@
+<% data[:'locale-list'].each do |locale| %>
+<%   lproj = current_resource.path.match(/([^\/]+\.lproj)/i).captures[0] %>
+<%   if locale[:folder] == lproj %>
+{
+    "meta": {
+        "text-direction": "<%= locale[:'text-direction'] %>",
+        "name": "<%= locale[:name] %>‎",
+        "isoName": "<%= locale[:isoName] %>‎",
+        "isoCodes": [
+            <%= locale[:isoCodes].map { |e| "\"#{e}\"" }.join(",\n            ") %>
+        ],
+        "folder": "<%= locale[:folder] %>"
+    }
+}
+<%   end %>
+<% end %>

@@ -1,0 +1,57 @@
+{
+    "birdseed_version": 5,
+    "build_id": "<%= config[:targets][config[:target]][:CFBundleVersion] || product_version %>",
+    "build_date": "<%= Time.now.strftime("%Y.%m.%d-%H:%M:%S") %>",
+    "collect_feedback": false,
+    "copyright": "<%= hb_copyright_page ? "#{hb_copyright_page.hb_NavId}" : nil %>",
+    "copyright_text": "<%= product_copyright %>",
+    "css": "",
+    "enable_tracking": false,
+    "framework": "<%= hb_framework %>",
+    "icon": "<%= config[:targets][config[:target]][:HPDBookIconPath] %>",
+    "landing": "<%= hb_landing_page.hb_NavId %>",
+    "locale": "<%= current_resource.hb_locale %>",
+    "platform": "mac",
+    "printable_page": "",
+    "product": "<%= product_name %>",
+    "quick_links": [],
+    "sections": {
+        <%- o = hb_sitemap.select{|r| r.hb_Section?}.sort_by{|r| r.hb_NavId}; o.each do |p| %>
+        "<%= p.hb_NavId %>": {
+            "name": "<%= p.data.title %>",
+            "children": [
+                <%- q = p.legitimate_children; q.each do |s| %>
+                "<%= s.hb_NavId %>"<%- if !s.equal?q.last %>,<%- end %>
+                <%- end # q-s loop %>
+            ]
+      }<%- if !p.equal?o.last %>,<%- end %>
+      <%- end # o-p loop %>      
+    },
+    "show_previous_next": <%= extensions[:Middlemac].options[:show_previous_next] %>,
+    "source_schema": "apd-schema",
+    "title": "<%= product_name %> Help",
+    "toc": [
+        <%- o = hb_landing_page.legitimate_children; o.each do |p| %>
+        "<%= p.hb_NavId %>"<%- if !p.equal?o.last %>,<%- end %>
+        <%- end # p loop %>
+    ],
+    "topics": {
+        <%- o = hb_sitemap.select{|r| !r.hb_Section?}.sort_by{|r| r.hb_NavId}; o.each do |p| %>
+        "<%= p.hb_NavId %>": {
+            <%- outp = [] %>
+            <%- outp << "\"name\": \"#{p.data.title}\"," if p.data.title %>
+            <%- outp << "\"summary\": \"#{strip_tags(p.data.blurb)}\"," if p.data.blurb %>
+            <%- outp << "\"searchName\": \"#{p.data.searchName}\"," if p.data.searchName %>
+            <%- outp << "\"href\": \"#{p.hb_Path}\"," if p.hb_Path %>
+            <%= outp.join("\n            ") %>
+            "categories": [
+              <%- if p.data.categories; p.data.categories.each do |s| %>
+              "<%= s %>"<%- if !s.equal?p.data.categories.last %>,<%- end %>
+              <%- end; end # q-s loop %>
+            ]
+        }<%- if !p.equal?o.last %>,<%- end %>
+        <%- end # o-p loop %>
+    },
+    "urls": {},
+    "version": "<%= product_version %>"
+}

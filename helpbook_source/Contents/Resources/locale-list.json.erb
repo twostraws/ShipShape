@@ -1,0 +1,14 @@
+[
+  <% locales = data[:'locale-list'].select { |locale| hb_locale_list.include?(locale[:folder]) } %>
+  <% locales.each do |locale| %>
+  {
+    "text-direction": "<%= locale[:'text-direction'] %>",
+    "name": "<%= locale[:name] %>‎",
+    "isoName": "<%= locale[:isoName] %>‎",
+    "isoCodes": [
+      <%= locale[:isoCodes].map { |e| "\"#{e}\"" }.join(",\n      ") %>
+    ],
+    "folder": "<%= locale[:folder] %>"
+  }<%= ',' unless locale.equal?(locales.last) %>
+  <% end %>
+]

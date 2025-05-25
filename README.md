@@ -35,6 +35,7 @@ This is an all-new project, so there are lots of opportunities to get involved:
 - Writing tests for any parts of the code.
 - Contribute feature suggestions by filing issues.
 - Adding documentation, translations, or code comments.
+- Contributing [help documentation](HELPBOOK.md)
 
 Everyone is welcome to contribute something, no matter your skill level. This is a great place to learn something new – if you have any doubts about making changes or contributing on GitHub, please join the #ControlRoom channel on the [Hacking with Swift Slack workspace](https://www.hackingwithswift.com/slack).
 

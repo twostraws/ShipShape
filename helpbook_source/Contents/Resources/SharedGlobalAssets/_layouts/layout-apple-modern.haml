@@ -1,0 +1,61 @@
+- landing = current_page.data.categories && current_page.data.categories.include?('landing')
+- debug = extensions[:Middlemac].options[:show_debug]
+!!!
+%html{:lang => "#{current_page.hb_locale}"}
+  %head
+    - if !debug
+      :JavaScript
+        window.location.href = "#{current_page.hb_redirect_path}";
+    %meta{:charset => 'UTF-8'}
+    %meta{:'http-equiv' => 'refresh', :content => "#{debug ? 100 : 0}; url=#{current_page.hb_redirect_path}" }
+    - if current_page.data.blurb
+      %meta{:name => 'description', :content => strip_tags(current_page.data.blurb)}
+    - if current_page.data.keywords
+      %meta{:name => 'keywords', :content => current_page.data.keywords.join(', ')}
+    %title= current_page.data.title || "#{product_name} Help"
+  - classes = ["AppleTopic"]
+  - id = current_page.hb_NavId
+  - current_page.data.categories.each { |c| classes << c unless classes.include?(c) } if current_page.data.categories
+  %body{:dir => "ltr", :class => classes, :id => id}
+    %a{:name => current_page.data.anchor || current_page.page_name}
+
+    - if landing
+      = image_tag "icon_256x256"
+      %h1 #{product_name} #{product_version}
+      %h2
+        %a{:href => "#{product_uri}" } #{product_uri}
+    - else
+      = image_tag current_page.data.topicIcon || "icon_256x256", :figure_class => 'topicIcon'
+      %h1 #{current_page.data.title}
+    
+    = yield
+    
+    -# Need an empty <ul> for the show/hide topics to show up.
+    - if landing
+      %ul
+    
+    - if content_for?(:seeAlso)
+      .LinkUniversal
+        %strong
+          See Also
+        = yield_content :seeAlso
+    
+    - if debug
+      .middlemac-debug
+        %hr
+        %p
+          These following appear here because `config.rb` has `options.show_debug = true`.
+        %h2 Images Available with md_images
+        = md_images
+        %h2 Links Available with md_links
+        = md_links
+
+-#
+  This layout will be used for nearly every page of your help book. Apple’s
+  scripts will strip out everything from the head, and so everything set here
+  is really only useful for indexers and for Apple’s JavaScript to use; they
+  won’t appear in the finished document. Note, too, that when a client attempts
+  to load this page directly, the browser will be directed to the index page
+  instead, which loads this content via AJAX. This is important because the
+  Help Indexer will index the page, and the Help Viewer will attempt to load
+  the page, and it would be ugly and unstyled if that happened.

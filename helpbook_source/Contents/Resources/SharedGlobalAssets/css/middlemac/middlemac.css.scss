@@ -1,0 +1,129 @@
+.middlemac-debug
+{
+  text-align: left;
+  font-size: 75%;
+  white-space: pre-wrap;
+}
+
+p {
+  &.note,
+  &.tip,
+  &.warning  {
+    background-repeat: no-repeat;
+    background-size: 1.4em;
+    background-position: top left;
+    text-indent: 2em;
+    display: block;
+    
+    &::before { font-weight: bold; }
+    
+    &.callout { margin-left: 2em; margin-right: 2em; }
+  }
+  
+  &.note    { background-image: url('note.svg'); }
+  &.tip     { background-image: url('tip.svg'); }
+  &.warning { background-image: url('warning.svg'); }
+  
+  &.note::before    { content: "Note "; }
+  &.tip::before     {    content: "Tip ";  }
+  &.warning::before {    content: "Warning ";  }
+}
+
+
+
+// Apple's stylesheet is broken for most <dl>'s with multiple terms and/or
+// definitions. Let's format our <dl>'s to look more-or-less like
+// Apple's tables, instead.
+.apd-topic {
+
+  // Standard <dl> with support for multiple DT and DD, and multi-paragraph.
+  dl {
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+
+    dt {
+      float: left;
+      width: 33%;
+      clear: both;
+      position: relative;
+      font-weight: initial;
+      margin: initial;
+    }
+
+    dd {
+      float: right;
+      width: 62%;
+      margin: initial;
+    }
+  
+    &.width50 {
+      dt, dd { width: 50%; }
+    }
+    
+    &.width25 {
+      dt { width: 25%; }
+      dd { width: 74%; }
+    } 
+  }
+  
+  // Standard <dl>, but with non-tabular layout.
+  dl.nontabular {
+    dt, dd { 
+        position: initial; 
+        float: none;
+        display: block;
+        width: initial;
+      }
+    
+    dt:first-child { margin-top: 1.0em; }
+
+    dd { margin-left: 2em; }
+  }
+  
+} // .apd-topic
+
+// Apple, why? Lots of people use line breaks in their source code, and
+// pre-line breaks this! Let's undo this from Apple's file.
+.apd-topic div.ParaLines,.apd-topic p{
+    white-space:initial;
+}
+
+// Apple didn't count on code being in an h2 or h3, so let's fix that.
+.apd-topic h2 code,
+.apd-topic h3 code
+{
+  font-size: 1em;
+}
+
+
+//***********************************************
+// Additions for this Help Book
+//***********************************************
+
+// YARDDOC styles.
+
+.method_details_list, .attr_details
+{
+  .inline, 
+  .inline p { display: inline; }
+    
+  span.name { font-weight: bold; }
+  
+  p.tag_title { font-weight: bold; }
+  
+  .note
+  {
+    background-image: url('note.svg');
+    background-repeat: no-repeat;
+    background-size: 1.4em;
+    background-position: top left;
+    text-indent: 2em;
+    display: block; 
+  }
+}
+
+// Shrink some of the code so it fits nicer.
+
+div.highlight pre.shrink_code code { font-size: 8pt; }

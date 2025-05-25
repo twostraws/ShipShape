@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string><%= cfBundleIdentifier %></string>
+	<key>CFBundleName</key>
+	<string><%= cfBundleName %></string>
+	<key>HPDBookAccessPath</key>
+	<string>index_hpd.html</string>
+	<key>HPDBookIndexPath</key>
+	<string><%= cfBundleName %>.helpindex</string>
+	<key>HPDBookCSIndexPath</key>
+	<string><%= cfBundleName %>.cshelpindex</string>
+	<key>HPDBookTitle</key>
+	<string><%= cfBundleName %> Help</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en-us</string>
+	<key>CFBundleShortVersionString</key>
+	<string><%= config[:targets][config[:target]][:CFBundleShortVersionString] || product_version %></string>
+	<key>CFBundleVersion</key>
+	<string><%= config[:targets][config[:target]][:CFBundleVersion] || product_version %></string>
+	<key>HPDBookIconPath</key>
+	<string><%= config[:targets][config[:target]][:HPDBookIconPath] || 'SharedGlobalAssets/convention/icon_32x32@2x.png' %></string>
+	<key>HPDBookKBProduct</key>
+	<string><%= config[:targets][config[:target]][:HPDBookKBProduct] %></string>
+	<key>HPDBookKBURL</key>
+	<string><%= config[:targets][config[:target]][:HPDBookKBURL] || product_uri %></string>
+	<key>HPDBookRemoteURL</key>
+	<string><%= config[:targets][config[:target]][:HPDBookRemoteURL] || 'dummy_enables_share' %></string>
+	<key>HPDBookTopicListCSSPath</key>
+	<string><%= config[:targets][config[:target]][:HPDBookTopicListCSSPath] %></string>
+	<key>HPDBookTopicListTemplatePath</key>
+	<string><%= config[:targets][config[:target]][:HPDBookTopicListTemplatePath] %></string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>hbwr</string>
+	<key>HPDBookType</key>
+	<string>3</string>
+</dict>
+</plist>
