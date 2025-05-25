@@ -6,10 +6,32 @@ given directory. Not only is this handy for Ruby development, but it lets you tr
 local modifications to gems without screwing up your whole system. As someone
 who doesn't normally program in Ruby, I find this especially helpful.
 
-Next, install ruby version 3.3.5. macOS probably still ships with some 2.x version, but
-the 2.x.x versions are past their end-of-life and are no longer supported. There are versions
-of Ruby that are newer than 3.3.5, but I haven't tested using them so I don't know if they
-introduce any new problems to this system.
+`brew install rbenv`
 
+Next, install ruby. There are precisely 1.2 gazillion releases of ruby, and only a person
+who develops primarily in ruby (so, not me) can keep them straight. There is a sort of
+master list at [ruby-lang.org](https://www.ruby-lang.org/en/downloads/releases/) and that's
+how one can discover what the state of a particular version is (current, outdated, end-of-life).
+
+`rbenv install 3.4.4`
+
+For subsequent steps we'll need to be sure that any gems we install are put in the right
+place. If a build step spawns a new shell, then that shell is likely to use whatever the
+*default* version of ruby is, rather than whatever version of ruby invoked the shell.
+
+`rbenv global 3.4.4`
+
+Okay, and now we need to build and then install Middlemac. First, grab the source that has
+been modified to work with 
+
+`git clone git@github.com:sbeitzel/middlemac.git`
+
+`cd middlemac`
+
+`bundle install` - this will download and install all the dependencies Middlemac needs.
+
+`rake install` - this will actually install Middlemac to your Ruby installation.
+
+At this point, you should be ready to go!
 
 [Homebrew]: https://brew.sh

@@ -24,7 +24,7 @@ gem 'middleman-targets', '~> 1.0.12'
 #######################################
 # Core gems
 #######################################
-gem 'middleman', ['~> 4.3', '>= 4.3.7']
+gem 'middleman', ['~> 4.6', '>= 4.6.0']
 gem 'middleman-core'
 gem 'middleman-cli'
 gem 'middleman-livereload' # Live-reloading plugin
@@ -42,6 +42,6 @@ gem 'haml', '~> 5.0'
 gem 'logger'
 gem 'mutex_m'
 gem 'ostruct'
-gem 'rack', ['>= 1.4.5', '< 3']
+gem 'rack', ['>= 1.4.5']
 gem 'rdoc'
 gem 'tzinfo-data', platforms: [:mswin, :mingw] # Time zone data for Windows
