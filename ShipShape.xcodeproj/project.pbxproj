@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51616E862DD8F5FA007B8250 /* JWTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 51616E852DD8F5FA007B8250 /* JWTKit */; };
+		7CCABB7F2DE3499000BD5DAE /* ShipShape_(main).help in Resources */ = {isa = PBXBuildFile; fileRef = 7CCABB7E2DE3499000BD5DAE /* ShipShape_(main).help */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		51616E6E2DD8EDE8007B8250 /* ShipShape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShipShape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		517283BC2DDCD6D40064D974 /* ShipShapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShipShapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CCABB7E2DE3499000BD5DAE /* ShipShape_(main).help */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "ShipShape_(main).help"; path = "helpbook_source/ShipShape_(main).help"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -62,6 +64,7 @@
 			children = (
 				51616E702DD8EDE8007B8250 /* ShipShape */,
 				517283BD2DDCD6D40064D974 /* ShipShapeTests */,
+				7CCABB7E2DE3499000BD5DAE /* ShipShape_(main).help */,
 				51616E6F2DD8EDE8007B8250 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CCABB7F2DE3499000BD5DAE /* ShipShape_(main).help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +390,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShipShape/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -425,6 +430,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShipShape/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
