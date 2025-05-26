@@ -108,7 +108,10 @@ struct ASCView: View {
     func load() async {
         do {
             loadState = .loading
-            try await client.checkConnection()
+
+            guard try await client.checkConnection() else {
+                throw ASCClientError.connectionError
+            }
             try await client.getApps()
             loadState = .loaded
         } catch {

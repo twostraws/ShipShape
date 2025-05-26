@@ -49,7 +49,7 @@ class ASCClient {
     }
 
     /// Checks whether the connection to App Store Connect is successful.
-    func checkConnection() async throws {
+    func checkConnection() async throws -> Bool {
         guard let url = URL(string: "https://api.appstoreconnect.apple.com/v1/apps?limit=1") else {
             throw ASCClientError.invalidEndpoint
         }
@@ -68,6 +68,8 @@ class ASCClient {
             errorMessage = "Failed to connect to App Store Connect: \(httpResponse.statusCode)"
             throw ASCClientError.connectionError
         }
+
+        return true
     }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
@@ -96,18 +98,16 @@ class ASCClient {
         do {
             return try decoder.decode(T.self, from: result)
         } catch DecodingError.keyNotFound(let key, let context) {
-            errorMessage = "Failed to decode due to missing key '\(key)' - \(context.debugDescription)"
+            fatalError("Failed to decode due to missing key '\(key)' - \(context.debugDescription)")
         } catch DecodingError.typeMismatch(_, let context) {
-            errorMessage = "Failed to decode due to type mismatch - \(context.debugDescription)"
+            fatalError("Failed to decode due to type mismatch - \(context.debugDescription)")
         } catch DecodingError.valueNotFound(let type, let context) {
-            errorMessage = "Failed to decode due to missing \(type) value - \(context.debugDescription)"
+            fatalError("Failed to decode due to missing \(type) value - \(context.debugDescription)")
         } catch DecodingError.dataCorrupted(let context) {
-            errorMessage = "Failed to decode: it appears to be invalid JSON: \(context)"
+            fatalError("Failed to decode: it appears to be invalid JSON: \(context)")
         } catch {
-            errorMessage = "Failed to decode: \(error.localizedDescription)"
+            fatalError("Failed to decode: \(error.localizedDescription)")
         }
-
-        throw ASCClientError.decodingFailed
     }
 
     func post<T: Encodable>(_ urlString: String, attaching content: T) async throws -> Bool {
