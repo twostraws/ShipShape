@@ -33,6 +33,9 @@ class ASCClient {
     /// The URLSession-compatible type to use for networking.
     var session: any URLSessionProtocol
 
+    /// Error message when connection or decoding fails.
+    var errorMessage = ""
+
     @ObservationIgnored
     @Logger private var logger
 
@@ -43,6 +46,28 @@ class ASCClient {
         self.keyID = keyID
         self.issuerID = issuerID
         self.session = session
+    }
+
+    /// Checks whether the connection to App Store Connect is successful.
+    func checkConnection() async throws {
+        guard let url = URL(string: "https://api.appstoreconnect.apple.com/v1/apps?limit=1") else {
+            throw ASCClientError.invalidEndpoint
+        }
+
+        let jwt = try await createJWT()
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
+        let (_, urlResponse) = try await session.data(for: request, delegate: nil)
+
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            errorMessage = "Failed to connect to App Store Connect: \(httpResponse.statusCode)"
+            throw ASCClientError.connectionError
+        }
     }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.
@@ -71,16 +96,18 @@ class ASCClient {
         do {
             return try decoder.decode(T.self, from: result)
         } catch DecodingError.keyNotFound(let key, let context) {
-            fatalError("Failed to decode due to missing key '\(key)' - \(context.debugDescription)")
+            errorMessage = "Failed to decode due to missing key '\(key)' - \(context.debugDescription)"
         } catch DecodingError.typeMismatch(_, let context) {
-            fatalError("Failed to decode due to type mismatch - \(context.debugDescription)")
+            errorMessage = "Failed to decode due to type mismatch - \(context.debugDescription)"
         } catch DecodingError.valueNotFound(let type, let context) {
-            fatalError("Failed to decode due to missing \(type) value - \(context.debugDescription)")
+            errorMessage = "Failed to decode due to missing \(type) value - \(context.debugDescription)"
         } catch DecodingError.dataCorrupted(let context) {
-            fatalError("Failed to decode: it appears to be invalid JSON: \(context)")
+            errorMessage = "Failed to decode: it appears to be invalid JSON: \(context)"
         } catch {
-            fatalError("Failed to decode: \(error.localizedDescription)")
+            errorMessage = "Failed to decode: \(error.localizedDescription)"
         }
+
+        throw ASCClientError.decodingFailed
     }
 
     func post<T: Encodable>(_ urlString: String, attaching content: T) async throws -> Bool {

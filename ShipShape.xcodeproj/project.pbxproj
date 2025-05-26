@@ -25,9 +25,22 @@
 		517283BC2DDCD6D40064D974 /* ShipShapeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShipShapeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		150395C22DE4E40A00D5D002 /* Exceptions for "ShipShape" folder in "ShipShape" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 51616E6D2DD8EDE8007B8250 /* ShipShape */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		51616E702DD8EDE8007B8250 /* ShipShape */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				150395C22DE4E40A00D5D002 /* Exceptions for "ShipShape" folder in "ShipShape" target */,
+			);
 			path = ShipShape;
 			sourceTree = "<group>";
 		};
