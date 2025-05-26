@@ -178,9 +178,20 @@ struct WelcomeView: View {
         guard keyID.isEmpty == false else { return }
         guard keyIssuerID.isEmpty == false else { return }
 
-        userSettings.setAPIKey(key)
-        userSettings.setAPIKeyID(keyID)
-        userSettings.setAPIKeyIssuer(keyIssuerID)
+        let newClient = ASCClient(key: key, keyID: keyID, issuerID: keyIssuerID)
+        Task {
+            do {
+                _ = try await newClient.checkConnection()
+
+                userSettings.setAPIKey(key)
+                userSettings.setAPIKeyID(keyID)
+                userSettings.setAPIKeyIssuer(keyIssuerID)
+
+            } catch {
+                errorMessage = "There was a problem connecting to App Store Connect. Please check your credentials."
+                isShowingError = true
+            }
+        }
     }
 }
 
