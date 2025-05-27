@@ -11,11 +11,15 @@ import SwiftUI
 struct LocalizationsView: View {
     @Environment(ASCClient.self) var client
     @State private var loadState = LoadState.loading
-    @State private var availableLocales: [String] = []
     @State private var selectedLocale: String = ""
     @Logger private var logger
 
     var app: ASCApp
+
+    var availableLocales: [String] {
+        let locales = Set(app.localizations.compactMap { $0.attributes.locale })
+        return Array(locales).sorted()
+    }
 
     var body: some View {
         LoadingView(loadState: $loadState, retryAction: load) {
@@ -50,9 +54,6 @@ struct LocalizationsView: View {
         do {
             loadState = .loading
             try await client.getVersions(of: app)
-
-            let locales = Set(app.localizations.compactMap { $0.attributes.locale })
-            availableLocales = Array(locales).sorted()
 
             DispatchQueue.main.async {
                 if selectedLocale.isEmpty {
