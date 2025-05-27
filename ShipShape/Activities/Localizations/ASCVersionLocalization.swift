@@ -21,6 +21,8 @@ struct ASCVersionLocalization: Decodable, Hashable, Identifiable {
         var description: String?
         var locale: String?
         var keywords: String?
+        var promotionalText: String?
+        var whatsNew: String?
     }
 
     // MARK: Example

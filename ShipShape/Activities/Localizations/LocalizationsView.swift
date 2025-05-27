@@ -34,6 +34,16 @@ struct LocalizationsView: View {
                             .textSelection(.enabled)
                     }
 
+                    Section("Promotional Text") {
+                        Text(localization.attributes.promotionalText ?? DefaultValues.notSet)
+                            .textSelection(.enabled)
+                    }
+
+                    Section("What's New") {
+                        Text(localization.attributes.whatsNew ?? DefaultValues.notSet)
+                            .textSelection(.enabled)
+                    }
+
                     Section("Keywords") {
                         Text(localization.attributes.keywords?.replacing(",", with: ", ") ?? DefaultValues.notSet)
                             .textSelection(.enabled)
