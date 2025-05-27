@@ -33,6 +33,9 @@ class ASCClient {
     /// The URLSession-compatible type to use for networking.
     var session: any URLSessionProtocol
 
+    /// Error message when connection or decoding fails.
+    var errorMessage = ""
+
     @ObservationIgnored
     @Logger private var logger
 
@@ -43,6 +46,30 @@ class ASCClient {
         self.keyID = keyID
         self.issuerID = issuerID
         self.session = session
+    }
+
+    /// Checks whether the connection to App Store Connect is successful.
+    func checkConnection() async throws -> Bool {
+        guard let url = URL(string: "https://api.appstoreconnect.apple.com/v1/apps?limit=1") else {
+            throw ASCClientError.invalidEndpoint
+        }
+
+        let jwt = try await createJWT()
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(jwt)", forHTTPHeaderField: "authorization")
+        let (_, urlResponse) = try await session.data(for: request, delegate: nil)
+
+        guard let httpResponse = urlResponse as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            errorMessage = "Failed to connect to App Store Connect: \(httpResponse.statusCode)"
+            throw ASCClientError.connectionError
+        }
+
+        return true
     }
 
     /// Fetches an App Store Connect API and decodes it to a specific type.

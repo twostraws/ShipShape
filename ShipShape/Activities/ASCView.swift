@@ -15,6 +15,7 @@ struct ASCView: View {
     @State private var selectedApp: ASCApp?
     @State private var selectedSection: AppSection?
     @State private var loadState = LoadState.loading
+    @State private var showASCError = false
 
     @State private var isShowingDebugInput = false
     @AppStorage("debugURL") private var debugURL = ""
@@ -85,6 +86,12 @@ struct ASCView: View {
         } message: {
             Text("This will fetch the URL and print it to the debug console, then trigger a crash.")
         }
+        .alert("Error establishing connection to App Store Connect", isPresented: $showASCError) {
+            Button("OK", role: .cancel) { }
+            Button("Clear Credentials", role: .destructive) { userSettings.clearCredentials() }
+        } message: {
+            Text(client.errorMessage)
+        }
     }
 
     init(apiKey: String, apiKeyID: String, apiKeyIssuer: String) {
@@ -101,10 +108,15 @@ struct ASCView: View {
     func load() async {
         do {
             loadState = .loading
+
+            guard try await client.checkConnection() else {
+                throw ASCClientError.connectionError
+            }
             try await client.getApps()
             loadState = .loaded
         } catch {
             loadState = .failed
+            showASCError.toggle()
         }
     }
 
