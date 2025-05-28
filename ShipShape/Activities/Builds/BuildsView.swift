@@ -16,7 +16,7 @@ struct BuildsView: View {
     var app: ASCApp
 
     private var sortedBuilds: [ASCAppBuild] {
-        app.builds.sorted { $0.attributes.version > $1.attributes.version }
+        app.builds.sorted { $0.attributes.uploadedDate > $1.attributes.uploadedDate }
     }
 
     var body: some View {
