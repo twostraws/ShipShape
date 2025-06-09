@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ASCLogView: View {
     @Environment(ASCClient.self) var client
+    @Logger var logger
 
     var body: some View {
         List {
             Section("Click to print to Xcode log") {
                 ForEach(client.logEntries) { entry in
                     Button(entry.url) {
-                        print(entry.response)
+                        logger.debug("\(entry.response)")
                     }
                     .buttonStyle(.plain)
                 }

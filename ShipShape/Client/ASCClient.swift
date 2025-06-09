@@ -124,7 +124,7 @@ class ASCClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let data = try JSONEncoder().encode(content)
-        print(String(decoding: data, as: UTF8.self))
+        logger.info("\(String(decoding: data, as: UTF8.self))")
 
         let (_, response) = try await session.data(for: request, delegate: nil)
 
