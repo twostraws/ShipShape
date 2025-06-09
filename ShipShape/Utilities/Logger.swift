@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import OSLog
+import os
 
 @propertyWrapper
 struct Logger {
